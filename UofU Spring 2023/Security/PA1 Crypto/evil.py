@@ -1,0 +1,13 @@
+#!/usr/bin/env python3
+# coding: iso-8859-1
+
+MSG = bytes(r"""œ Ï–-!¶h5¯_í&ÕOÛ“
+¤¼CC’€ÍY°+îÔáïôîåİTï_æÙÒÅh•aÍWp”õÉc?n`jMà…Hó†ÓAıÅ=…f6ab¢õàaÑöÄ]ZY"Ã0×áÙ…ğa°Ìï”öz¬ÁøÆÈº÷Ÿ?N?à¶»h   
+""", "iso-8859-1")
+from hashlib import sha256
+print(sha256(MSG).hexdigest())
+
+if sha256(MSG).hexdigest() == "6f1e62663238fe1339bd3349aaaa125edb9dd00cb744e2e9d78053d423e6d729":
+	print("I come in peace.")
+else:
+	print("Prepare to be destroyed!")
