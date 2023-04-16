@@ -1,0 +1,14 @@
+---
+:id: 135597086
+:submitters:
+- :name: DYLAN QUACH
+  :email: u1223503@utah.edu
+- :name: ERICKSON NGUYEN
+  :email: u1117938@utah.edu
+:created_at: !ruby/object:ActiveSupport::TimeWithZone
+  utc: 2022-09-22 18:47:16.052514000 Z
+  zone: !ruby/object:ActiveSupport::TimeZone
+    name: America/Los_Angeles
+  time: 2022-09-22 11:47:16.052514000 Z
+:status: processed
+:score: 40.5
