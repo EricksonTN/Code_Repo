@@ -1,4 +1,0 @@
-point_count: 10
-point_scale: 20
-random_seed: 12345
-
