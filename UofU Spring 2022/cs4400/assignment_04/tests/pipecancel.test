@@ -1,0 +1,3 @@
+tests/slowpipe.graph
+sleep 0.5
+kill 0

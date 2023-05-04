@@ -1,0 +1,25 @@
+// Has Dependencies, checks dependencies if they are finished or not
+      else {
+	struct task_list_node_t* currDependencies = tasks[i].dependencies;
+	int proc_L2D = 0;
+
+	// Checks the dependencies to see if any are not finished
+	while (1)
+	{
+	  if (tasks[currDependencies.tid].state != TASK_COMPLETED)
+	  {
+	    proc_L2D++;
+	  }
+
+	  currDependencies = currDependencies.next;
+
+	  if (currDependencies == NULL)
+	  {
+	    break;
+	  }
+	}
+
+	if (proc_L2D == 0)
+	{
+	  // Prep and run this process
+	}

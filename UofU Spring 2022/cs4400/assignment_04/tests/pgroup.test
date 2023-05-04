@@ -1,0 +1,5 @@
+tests/split.graph
+sleep 0.5
+kill 0
+sleep 0.5        give init a chance to reap the grandchild
+pgrep mysplit    this makes sure all mysplit processes have been killed

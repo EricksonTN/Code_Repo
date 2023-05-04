@@ -1,0 +1,2 @@
+:/bin/echo "hello world"
+0:/bin/echo "hello second world"

@@ -1,0 +1,1151 @@
+/*
+ * taskrunner - a program to execute a "task graph" based on the
+ *              tiny shell assignment from CS:APP3e.  Major tweaks by Ben Jones
+ *
+ * <Name: Erickson Nguyen: UID: u1117938>
+ */
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <ctype.h>
+#include <signal.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <errno.h>
+#include <fcntl.h>
+
+/*
+ * csapp.c - Functions for the CS:APP3e book
+ *
+ * Updated 10/2016 reb:
+ *   - Fixed bug in sio_ltoa that didn't cover negative numbers
+ *
+ * Updated 2/2016 droh:
+ *   - Updated open_clientfd and open_listenfd to fail more gracefully
+ *
+ * Updated 8/2014 droh:
+ *   - New versions of open_clientfd and open_listenfd are reentrant and
+ *     protocol independent.
+ *
+ *   - Added protocol-independent inet_ntop and inet_pton functions. The
+ *     inet_ntoa and inet_aton functions are obsolete.
+ *
+ * Updated 7/2014 droh:
+ *   - Aded reentrant sio (signal-safe I/O) routines
+ *
+ * Updated 4/2013 droh:
+ *   - rio_readlineb: fixed edge case bug
+ *   - rio_readnb: removed redundant EINTR check
+ */
+
+ssize_t sio_puts(char s[]);
+ssize_t sio_putl(long v);
+static size_t sio_strlen(char s[]);
+static void sio_ltoa(long v, char s[], int b);
+static void sio_reverse(char s[]);
+
+/* Misc manifest constants */
+#define MAXLINE    1024   /* max line size */
+#define MAXARGS     128   /* max args on a command line */
+#define MAXPROCESSES      64   /* max processes that can be started */
+#define MAXTASKS 32 /*max number of tasks */
+
+
+/* Process states */
+#define PROCESS_TODO 0 /* undefined */
+#define PROCESS_RUNNING 1    /* running */
+#define PROCESS_COMPLETE 2    /* completed normally */
+#define PROCESS_SIGNALLED 3    /* terminated by signal */
+
+const char* process_state_to_string(int s);
+
+/* Task states */
+#define TASK_TODO 0 //not started
+#define TASK_ABORTED 1 //started, but aborted
+#define TASK_RUNNING 2 //processes for this task are running
+#define TASK_COMPLETED 3 //all processes completed
+#define TASK_CANCELLED 4 //a dependency was cancelled or aborted, so this one is cancelled
+
+const char* task_state_to_string(int s);
+
+
+/* Global variables */
+extern char **environ;      /* defined in libc */
+int verbose = 0;            /* if true, print additional output */
+int logToFiles = 0; //if true, job should be logged to a ./task_***.log, /dev/null otherwise
+
+typedef struct process_t {
+
+  pid_t pid;
+  int tid; //task id, index of the task which this belongs to in the array of tasks
+  volatile int state; //started, completed, killed, etc?
+  char cmdline[MAXLINE]; //the arguments, but spaces will have been replaced by '\0'
+  char * argv[MAXARGS]; //pointesr into cmdline
+
+  //if this is the first process in task with 2 piped, processes,
+  //this is the index of the second process in the task.
+  //If this is the only process, or the 2nd process, next is -1
+  int next;
+
+} process_t;
+
+process_t processes[MAXPROCESSES]; //one will be created for each process in the task graph
+
+struct task_list_node_t;
+
+typedef struct task_t {
+
+  //index into the global processes array of the first process for this task or -1 if unused
+  int jid;
+  int state; //task state
+
+  struct task_list_node_t* dependents; //linked list of tasks that depend on this
+  struct task_list_node_t* dependencies; //linked list of unfinished tasks that this depends on
+} task_t;
+
+task_t tasks[MAXTASKS];
+
+typedef struct task_list_node_t{
+  int tid; //index of the task in the tasks array
+  struct task_list_node_t* next;
+} task_list_node_t;
+
+
+//store the existing signal handlers for all signals we might want to handle
+//we probably only care about SIGINT
+struct sigaction old_actions[32];
+
+
+/* End global variables */
+
+
+/* Function prototypes */
+
+/* Here are the functions that you will implement */
+
+//called when a child process terminates
+void sigchld_handler(int sig);
+
+//called when (basically) the user presses ctrl-c
+void sigint_handler(int sig);
+
+/* start all tasks that can be started.  Return true if there are tasks that
+   are running, or need to be run (probably waiting on dependencies now) */
+int start_ready_tasks();
+
+//Update the state of the task this process belongs to, if necessary
+void cleanup_completed_processes();
+
+//Cancel any tasks that depend on this one (because it failed, or was cancelled)
+void cancel_dependents(int tid);
+
+//kill all processes associated with this task
+void do_kill(int tid);
+
+//print status info about a given task
+void do_status(int tid);
+
+
+
+
+
+
+/* Here are helper routines that we've provided for you */
+int read_tasks(char* inputFilename);
+/* parse a command from a line of input */
+void parse_line(char *cmdline, char **argv);
+/* read a line of text, and return if our read() call is interrupted by a signal */
+int readline_interruptible(int fd, char* buf, int len);
+
+void sigquit_handler(int sig);
+
+void init_processes(struct process_t *processes);
+void init_tasks(struct task_t *tasks);
+
+/* process a user command (such as kill or status) */
+void process_command(char* command);
+
+void do_all_status();
+
+//get the index of a process_t struct in the global processes array based on its pid
+//returns -1 if no process with that pid exists
+int pid2jid(pid_t pid);
+
+/* Add/remove tasks to a linked list*/
+void linked_list_add(task_list_node_t** head, int tid);
+void linked_list_delete(task_list_node_t** head, int tid);
+
+
+void usage(void); //print usage info
+void unix_error(char *msg); //system call failed, print msg and exit
+void app_error(char *msg); //something bad happened, print msg and exit
+
+//install a signal handler function
+typedef void handler_t(int);
+handler_t *Signal(int signum, handler_t *handler);
+
+//reset a signal handler to its original action
+void reset_signal_handler(int signum);
+
+/*
+ * main - The shell's main routine
+ */
+int main(int argc, char **argv)
+{
+  char c;
+
+  /* Redirect stderr to stdout (so that driver will get all output
+   * on the pipe connected to stdout) */
+  dup2(1, 2);
+
+
+  /* Parse the command line */
+  while ((c = getopt(argc, argv, "hlv")) != EOF) {
+    switch (c) {
+    case 'h':             /* print help message */
+      usage();
+      break;
+    case 'l':
+      logToFiles = 1;
+      break;
+    case 'v':             /* emit additional diagnostic info */
+      verbose = 1;
+      break;
+    default:
+      usage();
+    }
+  }
+  if(optind != argc -1){
+    usage();
+  }
+
+  char* inputFile = argv[argc -1];
+
+  /* Install the signal handlers */
+
+  /* These are the ones you will need to implement */
+  Signal(SIGINT,  sigint_handler);   /* ctrl-c */
+  Signal(SIGCHLD, sigchld_handler);  /* Terminated or stopped child */
+
+  /* This one provides a clean way to kill the shell */
+  Signal(SIGQUIT, sigquit_handler);
+
+  /* Initialize the process, task lists */
+  init_processes(processes);
+  init_tasks(tasks);
+
+  int numTasks = read_tasks(inputFile);
+  if(verbose){
+    printf("num tasks: %d\n", numTasks);
+
+    for(int i = 0; i < numTasks; ++i){
+      for(int jid = tasks[i].jid; jid >= 0; jid = processes[jid].next){
+        printf("task: %d, process: %d, args:", i, jid);
+        for(int arg = 0; processes[jid].argv[arg]; ++arg){
+          printf("%s ", processes[jid].argv[arg]);
+        }
+        printf("\n");
+      }
+
+      printf("dependencies for task %d: ", i);
+      for(task_list_node_t* tn = tasks[i].dependencies; tn; tn = tn->next){
+        printf("%d ", tn->tid);
+      }
+      printf("\n");
+
+      printf("dependents for task %d: ", i);
+      for(task_list_node_t* tn = tasks[i].dependents; tn; tn = tn->next){
+        printf("%d ", tn->tid);
+      }
+      printf("\n");
+    }
+  }
+
+  while(1){
+    if(!start_ready_tasks()){
+      break;
+    }
+
+    fflush(stdout);
+    char line[MAXLINE];
+    while(readline_interruptible(0, line, MAXLINE) > 0){
+      process_command(line);
+    }
+    cleanup_completed_processes();
+  }
+
+  printf("finished.  Results:\n");
+  for(int i = 0; tasks[i].jid >= 0; i++){
+    printf("task %d: %s\n", i, task_state_to_string(tasks[i].state));
+  }
+
+  return 0;
+}
+
+
+
+
+/*returns the number of tasks */
+int read_tasks(char* inputFilename){
+
+  static char buf[MAXLINE];
+
+  int nextProcess = 0;
+  int nextTask = 0;
+
+  FILE* fp = fopen(inputFilename, "r");
+  if(!fp){
+    app_error("couldn't open the input file\n");
+  }
+
+  for(;; ++nextTask){
+    if(!fgets(buf, MAXLINE, fp)){
+      break;
+    }
+
+    //skip blank lines
+    if(!strlen(buf)){
+      --nextTask;
+      continue;
+    }
+    //First read dependency info
+    char* cmd1 = strchr(buf, ':');
+    if(!cmd1){
+      app_error("malformed input line.  Must have dependencies followed by ':'\n");
+    }
+
+    *cmd1 = '\0'; //so that buf is terminated at the colon
+    ++cmd1;
+
+    char* deps = buf;
+    do {
+      char* next = strchr(deps, ',');
+      if(next){
+        *next = '\0';
+        while(*(++next) == ' '){} //skip spaces
+      }
+      if(!strlen(deps)){
+        break; // no dependencies
+      }
+      linked_list_add(&(tasks[nextTask].dependencies), atoi(deps));
+      deps = next;
+    } while(deps && *deps);
+
+    /* If the line contains two commands, split into two strings */
+    char* cmd2 = strchr(cmd1, '|');
+
+    if(cmd2 != NULL && strlen(cmd2) >= 3 && (cmd2 - cmd1) >= 2){
+      // Terminate the first command with newline and null character
+      cmd2--;
+      cmd2[0] = '\n';
+      cmd2[1] = '\0';
+      // Set the second command to start after the next space
+      cmd2 += 3;
+    }
+
+    int c1Len = strlen(cmd1);
+
+    strncpy(processes[nextProcess].cmdline, cmd1, c1Len);
+    //add a newline if there isn't one
+    if(processes[nextProcess].cmdline[c1Len -1] != '\n'){
+      processes[nextProcess].cmdline[c1Len] = '\n';
+      processes[nextProcess].cmdline[c1Len + 1] = '\0';
+    }
+    parse_line(processes[nextProcess].cmdline, processes[nextProcess].argv);
+    tasks[nextTask].jid = nextProcess;
+    tasks[nextTask].state = TASK_TODO;
+    processes[nextProcess].next = -1; //default to no next process
+    processes[nextProcess].tid = nextTask;
+    ++nextProcess;
+
+    if(cmd2){
+
+      int c2Len = strlen(cmd2);
+
+      strncpy(processes[nextProcess].cmdline, cmd2, c2Len);
+      //add a newline if there isn't one
+      if(processes[nextProcess].cmdline[c2Len -1] != '\n'){
+        processes[nextProcess].cmdline[c2Len] = '\n';
+        processes[nextProcess].cmdline[c2Len + 1] = '\0';
+      }
+
+      parse_line(processes[nextProcess].cmdline, processes[nextProcess].argv);
+      processes[nextProcess -1].next = nextProcess;
+      processes[nextProcess].next = -1;
+      processes[nextProcess].tid = nextTask;
+      ++nextProcess;
+    }
+
+
+  }
+
+  int numTasks = nextTask;
+  //fill in dependents
+  for(int i = 0; i < numTasks; i++){
+    for(task_list_node_t *tp = tasks[i].dependencies; tp; tp = tp->next){
+      if(tp->tid >= numTasks){
+        app_error("dependency on an out-of-range task");
+      }
+      if(tp->tid == i){
+        app_error("self-dependency");
+      }
+      linked_list_add(&(tasks[tp->tid].dependents), i);
+    }
+  }
+
+
+  return numTasks;
+}
+
+/*
+ * parseline - Parse the command line and build the argv array.
+ *
+ * Characters enclosed in single quotes are treated as a single
+ * argument.  Return true if the user has requested a BG job, false if
+ * the user has requested a RN job.
+ * inputFile and outputFile should point to buffers that can store input/output
+ * redirection filenames.  If they are NULL they'll be ignored
+ */
+void parse_line(char *buf, char **argv){
+
+  char *delim;                 /* points to first space delimiter */
+  int argc;                    /* number of args */
+
+  buf[strlen(buf)-1] = ' ';  /* replace trailing '\n' with space */
+  while (*buf && (*buf == ' ')) /* ignore leading spaces */
+    buf++;
+  //  printf("parsing %s\n", buf);
+  /* Build the argv list */
+  argc = 0;
+  if (*buf == '\'') {
+    buf++;
+    delim = strchr(buf, '\'');
+  }
+  else {
+    delim = strchr(buf, ' ');
+  }
+
+  while (delim) {
+    argv[argc++] = buf;
+    *delim = '\0';
+    buf = delim + 1;
+    while (*buf && (*buf == ' ')) /* ignore spaces */
+      buf++;
+
+    if (*buf == '\'') {
+      buf++;
+      delim = strchr(buf, '\'');
+    }
+    else {
+      delim = strchr(buf, ' ');
+    }
+  }
+  //  printf("argc: %d\n", argc);
+  argv[argc] = NULL;
+
+}
+
+void process_command(char* command){
+
+  char *argv[MAXARGS];
+  parse_line(command, argv);
+
+  if(!strcmp(argv[0], "exit")){
+    printf("exiting without cleaning anything up\n");
+    exit(0);
+  } else if(!strcmp(argv[0], "kill")){
+    do_kill(atoi(argv[1]));
+  } else if(!strcmp(argv[0], "status")){
+    if(!argv[1]){
+      do_all_status();
+    } else {
+      do_status(atoi(argv[1]));
+    }
+  } else {
+    printf("ignoring uknown command: %s\n", argv[0]);
+  }
+
+
+}
+
+
+/* update the parent task and any dependencies */
+void cleanup_completed_processes(){
+
+  sigset_t sigs;
+  sigfillset(&sigs);
+
+  sigprocmask(SIG_BLOCK, &sigs, NULL);
+  // Iterates through all tasks
+  for (int i = 0; tasks[i].jid >= 0; i++)
+  {
+
+    process_t proc;
+
+    if (tasks[i].state == TASK_COMPLETED || tasks[i].state == TASK_ABORTED)
+    {
+      continue;
+    }
+
+    // two Processes in the task
+    if (processes[tasks[i].jid].next != -1)
+    {
+      proc = processes[processes[tasks[i].jid].next];
+    }
+    // one process in task
+    else
+    {
+      proc = processes[tasks[i].jid];
+    }
+
+    if (processes[tasks[i].jid].state == PROCESS_COMPLETE && proc.state == PROCESS_COMPLETE)
+    {
+      tasks[i].state = TASK_COMPLETED;
+      printf("task %d completed\n", i);
+      fflush(stdout);
+      
+      struct task_list_node_t *currDependent = tasks[i].dependents;
+      
+      while (currDependent != NULL)
+      {
+	linked_list_delete(&tasks[currDependent->tid].dependencies, i);
+
+        printf("deleting %d from dependent task %d\n", i, currDependent->tid);
+	fflush(stdout);
+	
+	currDependent = currDependent->next;
+      }
+    }
+
+    else if (processes[tasks[i].jid].state == PROCESS_SIGNALLED || proc.state == PROCESS_SIGNALLED)
+    { 
+      tasks[i].state = TASK_ABORTED;
+      printf("task %d failed\n", i);
+      fflush(stdout);
+      
+      cancel_dependents(i);
+    }
+    
+  }
+  sigprocmask(SIG_UNBLOCK, &sigs, NULL);
+}
+
+void cancel_dependents(int tid){
+  
+  sigset_t sigs;
+  sigfillset(&sigs);
+
+  sigprocmask(SIG_BLOCK, &sigs, NULL);
+  
+  if (tasks[tid].dependents == NULL)
+  {
+    return;
+  }
+
+  struct task_list_node_t * dep;
+  for (dep = tasks[tid].dependents; dep != NULL; dep = dep->next)
+  {
+    if (tasks[dep->tid].state == TASK_CANCELLED)
+    {
+      continue;
+    }
+    
+    tasks[dep->tid].state = TASK_CANCELLED;
+    printf("task %d cancelled\n", dep->tid);
+    fflush(stdout);
+    cancel_dependents(dep->tid);
+  }
+
+  sigprocmask(SIG_UNBLOCK, &sigs, NULL);
+}
+
+
+
+
+void do_kill(int tid){
+  if(tid < 0 || tid >= MAXTASKS || tasks[tid].jid < 0){
+    printf("invalid task id\n");
+    return;
+  }
+
+  kill(-processes[tasks[tid].jid].pid, SIGINT);
+  
+}
+
+
+void do_status(int tid){
+
+  if(tid < 0 || tid >= MAXTASKS || tasks[tid].jid < 0){
+    printf("invalid task id\n");
+    return;
+  }
+
+  printf("task %d: ", tid);
+  printf("%s, ", task_state_to_string(tasks[tid].state));
+  fflush(stdout);
+  
+  printf("process %d: ", processes[tasks[tid].jid].pid);
+  printf("%s.\n", process_state_to_string(processes[tasks[tid].jid].state));
+  fflush(stdout);
+  
+}
+
+
+void do_all_status(){
+  for(int i = 0; tasks[i].jid >= 0; i++){
+    do_status(i);
+  }
+
+}
+
+
+
+/* start all tasks that can be started.  Return true if there are tasks that are not completed (CP state)*/
+int start_ready_tasks(){
+
+  sigset_t sigs;
+  sigfillset(&sigs);
+  
+
+  sigprocmask(SIG_BLOCK, &sigs, NULL);
+  
+  int unfinTask = 0;
+  int fd;
+  char logFileName[20];
+  
+  
+  for (int i = 0; tasks[i].jid >= 0; i++)
+  {
+    sprintf(logFileName, "task_%d.log", i);
+    
+    // TASK_TODO Prep and Run Valid Processes
+    if (tasks[i].state == TASK_TODO)
+    {
+      unfinTask++;
+
+      //Task has only one process
+      if (processes[tasks[i].jid].next == -1)
+      {
+	// Checks to see if current task is waiting on any dependencies
+	if (tasks[i].dependencies == NULL)
+	{
+	  process_t currProc = processes[tasks[i].jid];
+
+	  // sets file descriptor
+	  if (!logToFiles)
+	  {
+	    fd = open("/dev/null", O_WRONLY);;
+	  }
+	  
+	  else if (logToFiles)
+	  {
+	    fd = open(logFileName, O_TRUNC | O_CREAT | O_WRONLY, S_IRWXU);
+	  }
+	  
+	  pid_t currPid = fork();
+	  
+
+	  // Child
+	  if (currPid == 0)
+	  {
+	    
+	    setpgid(0, 0);
+	      
+	    close(0);	    
+	    dup2(fd, 1);
+	    close(fd);
+	    
+	    reset_signal_handler(SIGINT);
+	    sigprocmask(SIG_UNBLOCK, &sigs, NULL);
+	    execve (currProc.argv[0], currProc.argv, environ);
+	  }
+
+	  // Parent
+	  else
+	  {
+	    setpgid(currPid, currPid);
+	    currProc.pid = currPid;
+
+	    currProc.state = PROCESS_RUNNING;
+	    processes[tasks[i].jid] = currProc;
+
+	    printf("Started process with pid %ld from task %d: ", (long) currPid, i);
+	    fflush(stdout);
+	    
+	    for (int i = 0; currProc.argv[i] != NULL; i++)
+	    {
+	      printf("%s ", currProc.argv[i]);
+	      fflush(stdout);
+	    }
+
+	    printf("\n");
+	    fflush(stdout);
+	  
+	    tasks[i].state = TASK_RUNNING;
+	    
+	  }
+	}
+      }
+
+
+
+      
+      // Task has two processes (piped)
+      else if (processes[tasks[i].jid].next > -1)
+      {
+	if (tasks[i].dependencies == NULL)
+	{
+	  int fds[2];
+	  if (pipe(fds) == -1)
+	  {
+	    printf("failed to pipe");
+	    fflush(stdout);
+	  }
+	  
+	  process_t firstProc = processes[tasks[i].jid];
+	  process_t secProc = processes[processes[tasks[i].jid].next];
+
+	  // Sets File Descriptors
+	  if (!logToFiles)
+	  {
+	    fd = open("/dev/null", O_WRONLY);;
+	  }
+
+	  else if (logToFiles)
+	  {
+	    fd = open(logFileName, O_TRUNC | O_CREAT | O_WRONLY, S_IRWXU);
+	  }
+	  
+	  pid_t FP_Pid = fork();
+
+	  // First process Child
+	  if (FP_Pid == 0)
+	  {
+	    setpgid(0, 0);
+	  
+	    close(0);
+
+	    dup2(fds[1], 1);
+
+	    close(fds[0]);
+	    close(fds[1]);
+
+	    reset_signal_handler(SIGINT);
+	    sigprocmask(SIG_UNBLOCK, &sigs, NULL);
+	    
+	    execve (firstProc.argv[0], firstProc.argv, environ);
+	  }
+
+	  // Parent
+	  else
+	  {
+	    pid_t SP_Pid = fork();
+	  
+	    // Second Process Child
+	    if (SP_Pid == 0)
+	    {
+	      setpgid(0, FP_Pid);
+	       
+	      // Figure out how to write to /dev/null
+	      
+	      dup2(fds[0], 0);
+	      dup2(fd, 1);
+	      close(fd);
+	      close(fds[0]);
+	      close(fds[1]);
+		
+	      reset_signal_handler(SIGINT);
+	      sigprocmask(SIG_UNBLOCK, &sigs, NULL);
+	      execve (secProc.argv[0], secProc.argv, environ); 
+	    }
+
+	    
+	    close(fds[0]);
+	    close(fds[1]);
+
+	    setpgid(SP_Pid, FP_Pid);
+
+	    // Set the First Process's PID and State
+	    firstProc.pid = FP_Pid;
+	    firstProc.state = PROCESS_RUNNING;
+	    processes[tasks[i].jid] = firstProc;
+
+	    printf("started process with pid %ld from task %d: ", (long) FP_Pid, i);
+	    fflush(stdout);
+	    
+	    for (int i = 0; firstProc.argv[i] != NULL; i++)
+	    {
+	      printf("%s ", firstProc.argv[i]);
+	      fflush(stdout);
+	    }
+
+	    printf("\n");
+	    fflush(stdout);
+	    
+
+	    // Set the Second Process's PID and State
+	    secProc.pid = SP_Pid;
+	    secProc.state = PROCESS_RUNNING;	  
+	    processes[processes[tasks[i].jid].next] = secProc;
+
+	    printf("Started process with pid %ld from task %d: ", (long) SP_Pid, i);
+	    fflush(stdout);
+	    
+	    for (int i = 0; secProc.argv[i] != NULL; i++)
+	    {
+	      printf("%s ", secProc.argv[i]);
+	      fflush(stdout);
+	    }
+
+	    printf("\n");
+	    fflush(stdout);	    
+	    
+	  }
+	  tasks[i].state = TASK_RUNNING;
+	  
+	}
+      }
+      
+    }
+
+    // TASK_RUNNING
+    else if (tasks[i].state == TASK_RUNNING)
+    {
+      unfinTask++;
+    }
+    
+  }
+  sigprocmask(SIG_UNBLOCK, &sigs, NULL);
+  if (unfinTask != 0)
+  {
+    return 1;
+  }
+  
+  return 0;
+}
+
+
+/*****************
+ * Signal handlers
+ *****************/
+
+/*
+ * sigchld_handler - The kernel sends a SIGCHLD to the shell whenever
+ *     a child job terminates (becomes a zombie), or stops because it
+ *     received a SIGSTOP or SIGTSTP signal. The handler reaps all
+ *     available zombie children, but doesn't wait for any other
+ *     currently running children to terminate.
+ */
+void sigchld_handler(int sig)
+{
+  int status;
+  
+  pid_t pid = waitpid(-1, &status, WNOHANG);
+
+  while (pid > 0)
+  {
+    if (WIFEXITED(status))
+    {
+      processes[pid2jid(pid)].state = PROCESS_COMPLETE;
+      
+      sio_puts("process with pid ");
+      sio_putl((long)pid);
+      sio_puts(" from task ");
+      sio_putl((long) processes[pid2jid(pid)].tid);
+      sio_puts(" completed successfully\n");
+      
+    }
+    else if (WIFSIGNALED(status))
+    {
+      processes[pid2jid(pid)].state = PROCESS_SIGNALLED;
+
+      sio_puts("process with pid ");
+      sio_putl((long)pid);
+      sio_puts(" from task ");
+      sio_putl((long) processes[pid2jid(pid)].tid);
+      sio_puts(" terminated by signal ");
+      sio_putl(WTERMSIG(status));
+      sio_puts("\n");
+    }
+
+    pid = waitpid(-1, &status, WNOHANG);
+  }
+  
+
+}
+
+/*
+ * sigint_handler - The kernel sends a SIGINT to the shell whenver the
+ *    user types ctrl-c at the keyboard.  Catch it and send it along
+ *    to the foreground job.
+ */
+void sigint_handler(int sig)
+{
+  sigset_t sigs;
+  sigfillset(&sigs);
+  
+  sigprocmask(SIG_BLOCK, &sigs, NULL);
+  for (int i = 0; tasks[i].jid >= 0; i++)
+  {
+    kill(-getpgid(processes[tasks[i].jid].pid), SIGINT);
+  }
+  sigprocmask(SIG_UNBLOCK, &sigs, NULL);
+}
+
+
+/* init_processes -- intialize the process list */
+void init_processes(process_t* processes){
+  for(int i = 0; i < MAXPROCESSES; ++i){
+    processes[i].pid = -1;
+    processes[i].tid = -1;
+    processes[i].next = -1;
+    processes[i].state = PROCESS_TODO;
+    processes[i].cmdline[0] = '\0';
+    processes[i].argv[0] = NULL;
+  }
+}
+
+/* init_tasks -- intialize the task list */
+void init_tasks(task_t* tasks){
+  for(int i = 0; i < MAXTASKS; ++i){
+    tasks[i].jid = -1;
+    tasks[i].dependents = NULL;
+    tasks[i].dependencies = NULL;
+  }
+}
+
+
+/* add this to the front of a linked list of jobs */
+void linked_list_add(task_list_node_t** head, int tid){
+  task_list_node_t* node = malloc(sizeof(task_list_node_t));
+  node->next = *head;
+  node->tid = tid;
+  *head = node;
+  
+}
+
+
+/* delete this job from the linked list and free its node.  Job MUST be in the list */
+void linked_list_delete(task_list_node_t** head, int tid){
+  if(!*head){
+    app_error("trying to delete from null linked list");
+  }
+
+  while((*head)->tid != tid){
+    head = &((*head)->next);
+  }
+  if(!(*head)){
+    app_error("trying to delete a node not in the list");
+  }
+  task_list_node_t* toFree = (*head);
+  (*head) = (*head)->next;
+  free(toFree);
+}
+
+
+
+/*pid2jid - Map process ID to job ID (index into processes array) */
+int pid2jid(pid_t pid)
+{
+  int i;
+
+  if (pid < 1)
+    return -1;
+  for (i = 0; i < MAXPROCESSES; i++)
+    if (processes[i].pid == pid) {
+      return i;
+    }
+  return -1;
+}
+
+
+
+/***********************
+ * Other helper routines
+ ***********************/
+
+/*
+ * usage - print a help message
+ */
+void usage(void)
+{
+  printf("Usage: shell [-hlv] <task graph filename>\n");
+  printf("   -h   print this message\n");
+  printf("   -l   log the output of tasks to files named task_<task number>.log.  Otherwise, stdout is discarded\n");
+  printf("   -v   print additional diagnostic information\n");
+  exit(1);
+}
+
+
+/* Pretty print process state */
+const char* process_state_to_string(int s){
+  switch(s){
+  case PROCESS_TODO: return "not started";
+  case PROCESS_RUNNING: return "running";
+  case PROCESS_COMPLETE: return "completed";
+  case PROCESS_SIGNALLED: return "terminated by signal";
+  default:
+    app_error("invalid process state");
+    return "";
+  }
+}
+
+/* pretty print task state */
+const char* task_state_to_string(int s){
+  switch(s){
+  case TASK_TODO: return "todo";
+  case TASK_ABORTED: return "aborted";
+  case TASK_RUNNING: return "running";
+  case TASK_COMPLETED: return "completed";
+  case TASK_CANCELLED: return "cancelled";
+  default:
+    app_error("invalid task state");
+    return "";
+  }
+}
+
+
+/*
+ * unix_error - unix-style error routine
+ */
+void unix_error(char *msg)
+{
+  fprintf(stdout, "%s: %s\n", msg, strerror(errno));
+  abort();
+}
+
+/*
+ * app_error - application-style error routine
+ */
+void app_error(char *msg)
+{
+  fprintf(stdout, "%s\n", msg);
+  abort();
+}
+
+/*
+ * Signal - wrapper for the sigaction function
+ */
+handler_t *Signal(int signum, handler_t *handler)
+{
+  struct sigaction action;
+
+  action.sa_handler = handler;
+  sigemptyset(&action.sa_mask); /* block sigs of type being handled */
+  //we don't want to restart read/write on a signal
+  action.sa_flags = 0;
+  //textbook used to do this, which made read() uninterruptible
+  //action.sa_flags = SA_RESTART; /* restart syscalls if possible */
+
+  if (sigaction(signum, &action, old_actions + signum) < 0)
+    unix_error("Signal error");
+  return (old_actions[signum].sa_handler);
+}
+
+
+void reset_signal_handler(int signum){
+  if(sigaction(signum, old_actions + signum, NULL) < 0){
+    unix_error("Signal error");
+  }
+}
+
+
+/*
+ * sigquit_handler - The driver program can gracefully terminate the
+ *    child shell by sending it a SIGQUIT signal.
+ */
+void sigquit_handler(int sig)
+{
+  sio_puts("Terminating after receipt of SIGQUIT signal\n");
+  exit(1);
+}
+
+
+/* Read a line from a file descriptor, if the read is interrupted by a signal, return -1 */
+int readline_interruptible(int fd, char* buf, int len){
+
+  for(int i = 0; i < len - 1; ++i){
+    int ret = read(fd, buf + i, 1);
+    if(ret < 0){
+      if(errno == EINTR){
+        return -1;
+      } else {
+        unix_error("readline");
+      }
+    } else if(buf[i] == '\n'){
+      //replace newline with a null terminator
+      if(i + 1< len){
+        buf[i + 1] = '\0';
+      } else { //make sure we end with a newline since other parts of the code expect one
+        buf[i -1] = '\n';
+        buf[i] = '\0';
+      }
+      return i;
+    } else {
+    }
+  }
+  buf[len -1] = '\0';
+  return len -1; //incomplete line
+
+}
+
+
+
+/* Put string */
+ssize_t sio_puts(char s[])
+{
+  return write(STDOUT_FILENO, s, sio_strlen(s));
+}
+
+
+/* Put long */
+ssize_t sio_putl(long v)
+{
+  char s[128];
+  sio_ltoa(v, s, 10); /* Based on K&R itoa() */
+  return sio_puts(s);
+}
+
+
+/* sio_strlen - Return length of string (from K&R) */
+static size_t sio_strlen(char s[])
+{
+  int i = 0;
+  while (s[i] != '\0')
+    ++i;
+  return i;
+}
+
+
+/* sio_ltoa - Convert long to base b string (from K&R) */
+static void sio_ltoa(long v, char s[], int b)
+{
+  int c, i = 0;
+  int neg = v < 0;
+
+  if (neg)
+    v = -v;
+
+  do {
+    s[i++] = ((c = (v % b)) < 10)  ?  c + '0' : c - 10 + 'a';
+  } while ((v /= b) > 0);
+
+  if (neg)
+    s[i++] = '-';
+
+  s[i] = '\0';
+  sio_reverse(s);
+}
+
+/* sio_reverse - Reverse a string (from K&R) */
+static void sio_reverse(char s[])
+{
+  int c, i, j;
+
+  for (i = 0, j = strlen(s)-1; i < j; i++, j--) {
+    c = s[i];
+    s[i] = s[j];
+    s[j] = c;
+  }
+}

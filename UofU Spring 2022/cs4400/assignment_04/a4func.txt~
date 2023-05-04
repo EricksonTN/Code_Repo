@@ -1,0 +1,181 @@
+Global Variables:
+
+processes[]
+
+tasks[]
+
+
+Helper Functions:
+
+read_tasks
+
+parse_line : parses a command from a line of input
+
+readline_interruptible : read a line of text, and return if our read() call is interrupted by a signal
+
+process_command : process a user command (such as kill or status)
+
+pid2jid : get the index of a process_t struct in the global process array based on its pid
+
+linked_list_add
+linked_list_delete
+
+usage : print usage info
+
+unix_error : system call failed, print msg and exit
+
+app_error: : something bad happened, print msg and exit
+
+Signal : install a signal handler function
+
+reset_signal_handler : reset a signal handler to its original action
+
+
+
+int unfinProc = 0;
+  
+  for (int i = 0; i < MAXTASKS; i++)
+  {
+    // TASK_TODO Prep and Run Valid Processes
+    if (tasks[i].state == TASK_TODO)
+    {
+      unfinProc++;
+
+      // Checks to see if current task is waiting on any dependencies
+      if (tasks[i].dependencies == NULL)
+      {
+	// Prep and run this process
+      }
+
+      // Has Dependencies, checks dependencies if they are finished or not
+      else {
+	struct task_list_node_t* currDependencies = tasks[i].dependencies;
+	int proc_L2D = 0;
+
+	// Checks the dependencies to see if any are not finished
+	while (1)
+	{
+	  if (tasks[currDependencies.tid].state != TASK_FINISHED)
+	  {
+	    proc_L2D++;
+	  }
+
+	  currDependencies = currDependencies.next;
+
+	  if (currDependencies == NULL)
+	  {
+	    break;
+	  }
+	}
+
+	if (proc_L2D == 0)
+	{
+	  // Prep and run this process
+	}
+	
+      }
+    }
+
+    // TASK_ABORTED
+    else if (tasks[i].state == TASK_ABORTED)
+    {
+      
+    }
+
+    // TASK_RUNNING
+    else if (tasks[i].state == TASK_RUNNING)
+    {
+      unfinProc++;
+    }
+
+    // TASK_COMPLETED
+    else if (tasks[i].state == TASK_COMPLETED)
+    {
+
+    }
+
+    // TASK_CANCELED
+    else if (tasks[i].state == TASK_CANCELED)
+    {
+      cancel_dependents(i);
+    }
+  }
+  return unfinProc;
+
+
+// FORMER CLEANUP METHOD IMPLEMENTATION
+
+/* while (1) */
+    /* { */
+    /*   printf("in while loop for task %d\n", i); */
+    /*   // if current process state is complete set the done check to true */
+    /*   if (currProc.state == PROCESS_COMPLETE) */
+    /*   { */
+    /* 	printf("in process complete\n"); */
+    /* 	taskDoneCheck = 1; */
+    /*   } */
+
+    /*   // if current process state is still running set the done check to false */
+    /*   else if (currProc.state == PROCESS_RUNNING) */
+    /*   { */
+    /* 	printf("in process_running"); */
+    /* 	taskDoneCheck = 0; */
+    /*   } */
+      
+    /*   // if current process state is signalled, call the cancel dependents method who will set the task state */
+    /*   else if (currProc.state == PROCESS_SIGNALLED) */
+    /*   { */
+    /* 	printf("in process_signalled"); */
+    /* 	cancel_dependents(i); */
+    /*   } */
+
+    /*   else if (currProc.state == PROCESS_TODO) */
+    /*   { */
+    /* 	printf("in process todo\n"); */
+    /* 	return; */
+    /*   } */
+      
+    /*   if (currProc.next == -1) */
+    /*   { */
+    /* 	printf("End of task %d processes\n", i); */
+    /* 	break; */
+    /*   } */
+    /*   printf("Outside of the while loop for task %d\n", i); */
+    /*   currProc = processes[currProc.next]; */
+    /* } */
+    
+    /* if (tasks[i].state == TASK_COMPLETED) */
+    /* { */
+    /*   continue; */
+    /* } */
+    
+    /* else if (taskDoneCheck) */
+    /* { */
+    /*   printf("in task completed setter\n"); */
+    /*   tasks[i].state = TASK_COMPLETED; */
+
+    /*   struct task_list_node_t *currDependent = tasks[i].dependents; */
+      
+    /*   while (currDependent != NULL) */
+    /*   { */
+    /* 	printf("in the dependencies removal loop\n"); */
+    /* 	linked_list_delete(&tasks[currDependent->tid].dependencies, i); */
+
+    /* 	if (tasks[currDependent->tid].dependencies == NULL) */
+    /* 	{ */
+    /* 	  printf("dependency deleted\n"); */
+    /* 	} */
+
+    /* 	else */
+    /* 	{ */
+    /* 	  printf("dependency not deleted\n"); */
+    /* 	} */
+	
+    /* 	currDependent = currDependent->next; */
+    /*   } */
+      
+    /* } */
+    /* else */
+    /* { */
+    /*   tasks[i].state = TASK_RUNNING; */
+    /* } */

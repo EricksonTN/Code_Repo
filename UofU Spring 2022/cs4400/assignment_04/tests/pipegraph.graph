@@ -1,0 +1,1 @@
+:/bin/echo 'hello world' 'arg2' | /usr/bin/tr '[:lower:]' '[:upper:]'
