@@ -1,0 +1,237 @@
+//int current, top_nb, bot_nb, left_nb, right_nb, TL_nb, TR_nb, BL_nb, BR_nb;
+
+//Top Rows Case
+  /* for (i = 0; i < 2; i++) */
+  /*   for (j = 2; j < border; j++) */
+  /*   { */
+  /*     current = RIDX(i, j, dim); */
+  /*     left_nb = RIDX(i, (j-2), dim); */
+  /*     right_nb = RIDX(i, (j+2), dim); */
+  /*     BL_nb = RIDX((i+2), (j-2), dim); */
+  /*     bot_nb = RIDX((i+2), j, dim); */
+  /*     BR_nb = RIDX((i+2), (j+2), dim); */
+      
+  /*     // left neighbor */
+  /*     red += (int) src[left_nb].red; */
+  /*     green += (int) src[left_nb].green; */
+  /*     blue += (int) src[left_nb].blue; */
+
+  /*     // current neighbor */
+  /*     red += (int) src[current].red; */
+  /*     green += (int) src[current].green; */
+  /*     blue += (int) src[current].blue; */
+
+  /*     // right neighbor */
+  /*     red += (int) src[right_nb].red; */
+  /*     green += (int) src[right_nb].green; */
+  /*     blue += (int) src[right_nb].blue; */
+
+  /*     // bottom left neighbor */
+  /*     red += (int) src[BL_nb].red; */
+  /*     green += (int) src[BL_nb].green; */
+  /*     blue += (int) src[BL_nb].blue; */
+
+  /*     // bottom neighbor */
+  /*     red += (int) src[bot_nb].red; */
+  /*     green += (int) src[bot_nb].green; */
+  /*     blue += (int) src[bot_nb].blue; */
+
+  /*     // bottom right neighbor */
+  /*     red += (int) src[BR_nb].red; */
+  /*     green += (int) src[BR_nb].green; */
+  /*     blue += (int) src[BR_nb].blue; */
+
+  /*     currentPixel.red = (unsigned short) (red / 6); */
+  /*     currentPixel.green = (unsigned short) (green / 6); */
+  /*     currentPixel.blue = (unsigned short) (blue / 6); */
+      
+  /*     dst[RIDX(i, j, dim)] =  currentPixel; */
+ 
+  /*   } */
+
+  //Bottom Rows Case
+  /* for (i = border; i < dim; i++) */
+  /*   for(j = 2; j < border; j++) */
+  /*   { */
+  /*     current = RIDX(i, j, dim); */
+  /*     left_nb = RIDX(i, (j-2), dim); */
+  /*     right_nb = RIDX(i, (j+2), dim); */
+  /*     TL_nb = RIDX((i-2), (j-2), dim); */
+  /*     top_nb = RIDX((i-2), j, dim); */
+  /*     TR_nb = RIDX((i-2), (j+2), dim); */
+
+  /*     // left neighbor */
+  /*     red += (int) src[left_nb].red; */
+  /*     green += (int) src[left_nb].green; */
+  /*     blue += (int) src[left_nb].blue; */
+
+  /*     // current neighbor */
+  /*     red += (int) src[current].red; */
+  /*     green += (int) src[current].green; */
+  /*     blue += (int) src[current].blue; */
+
+  /*     // right neighbor */
+  /*     red += (int) src[right_nb].red; */
+  /*     green += (int) src[right_nb].green; */
+  /*     blue += (int) src[right_nb].blue; */
+
+  /*     // top left neighbor */
+  /*     red += (int) src[TL_nb].red; */
+  /*     green += (int) src[TL_nb].green; */
+  /*     blue += (int) src[TL_nb].blue; */
+
+  /*     // top neighbor */
+  /*     red += (int) src[top_nb].red; */
+  /*     green += (int) src[top_nb].green; */
+  /*     blue += (int) src[top_nb].blue; */
+
+  /*     // top right neighbor */
+  /*     red += (int) src[TR_nb].red; */
+  /*     green += (int) src[TR_nb].green; */
+  /*     blue += (int) src[TR_nb].blue; */
+
+  /*     currentPixel.red = (unsigned short) (red / 6); */
+  /*     currentPixel.green = (unsigned short) (green / 6); */
+  /*     currentPixel.blue = (unsigned short) (blue / 6); */
+      
+  /*     dst[RIDX(i, j, dim)] =  currentPixel; */
+  /*   } */
+
+  //Left Columns Case
+  /* for (i = 2; i < border; i++) */
+  /*   for(j = 0; j < 2; j++) */
+  /*   { */
+  /*     current = RIDX(i, j, dim); */
+  /*     right_nb = RIDX(i, (j+2), dim); */
+  /*     top_nb = RIDX((i-2), j, dim); */
+  /*     bot_nb = RIDX((i+2), j, dim); */
+  /*     TR_nb = RIDX((i-2), (j+2), dim); */
+  /*     BR_nb = RIDX((i+2), (j+2), dim); */
+
+  /*     // current neighbor */
+  /*     red += (int) src[current].red; */
+  /*     green += (int) src[current].green; */
+  /*     blue += (int) src[current].blue; */
+
+  /*     // right neighbor */
+  /*     red += (int) src[right_nb].red; */
+  /*     green += (int) src[right_nb].green; */
+  /*     blue += (int) src[right_nb].blue; */
+
+  /*     // bottom neighbor */
+  /*     red += (int) src[bot_nb].red; */
+  /*     green += (int) src[bot_nb].green; */
+  /*     blue += (int) src[bot_nb].blue; */
+
+  /*     // top neighbor */
+  /*     red += (int) src[top_nb].red; */
+  /*     green += (int) src[top_nb].green; */
+  /*     blue += (int) src[top_nb].blue; */
+
+  /*     // top right neighbor */
+  /*     red += (int) src[TR_nb].red; */
+  /*     green += (int) src[TR_nb].green; */
+  /*     blue += (int) src[TR_nb].blue; */
+
+  /*     // bottom right neighbor */
+  /*     red += (int) src[BR_nb].red; */
+  /*     green += (int) src[BR_nb].green; */
+  /*     blue += (int) src[BR_nb].blue; */
+
+  /*     currentPixel.red = (unsigned short) (red / 6); */
+  /*     currentPixel.green = (unsigned short) (green / 6); */
+  /*     currentPixel.blue = (unsigned short) (blue / 6); */
+      
+  /*     dst[RIDX(i, j, dim)] =  currentPixel; */
+		       
+    /* } */
+
+  //Right Columns Case
+  /* for (i = 2; i < border; i++) */
+  /*   for (j = border; j < dim; j++) */
+  /*   { */
+  /*     current = RIDX(i, j, dim); */
+  /*     top_nb = RIDX((i-2), j, dim); */
+  /*     bot_nb = RIDX((i+2), j, dim); */
+  /*     left_nb = RIDX(i, (j-2), dim); */
+  /*     TL_nb = RIDX((i-2), (j-2), dim); */
+  /*     BL_nb = RIDX((i+2), (j-2), dim); */
+
+  /*     // current neighbor */
+  /*     red += (int) src[current].red; */
+  /*     green += (int) src[current].green; */
+  /*     blue += (int) src[current].blue; */
+
+  /*     // bottom neighbor */
+  /*     red += (int) src[bot_nb].red; */
+  /*     green += (int) src[bot_nb].green; */
+  /*     blue += (int) src[bot_nb].blue; */
+
+  /*     // top neighbor */
+  /*     red += (int) src[top_nb].red; */
+  /*     green += (int) src[top_nb].green; */
+  /*     blue += (int) src[top_nb].blue; */
+
+  /*     // left neighbor */
+  /*     red += (int) src[left_nb].red; */
+  /*     green += (int) src[left_nb].green; */
+  /*     blue += (int) src[left_nb].blue; */
+      
+  /*     // top left neighbor */
+  /*     red += (int) src[TL_nb].red; */
+  /*     green += (int) src[TL_nb].green; */
+  /*     blue += (int) src[TL_nb].blue; */
+
+  /*     // bottom left neighbor */
+  /*     red += (int) src[BL_nb].red; */
+  /*     green += (int) src[BL_nb].green; */
+  /*     blue += (int) src[BL_nb].blue; */
+
+  /*     currentPixel.red = (unsigned short) (red / 6); */
+  /*     currentPixel.green = (unsigned short) (green / 6); */
+  /*     currentPixel.blue = (unsigned short) (blue / 6); */
+      
+  /*     dst[RIDX(i, j, dim)] =  currentPixel; */
+    /* } */
+
+static  pixel ver2_weighted_combo(int dim, int i, int j, pixel *src) {
+
+  int ii, jj;
+  int red, green, blue;
+  red = green = blue = 0;
+  pixel currentPixel;
+  
+  for(ii = -2; ii <= 2; ii += 2)
+    for(jj = -2; jj <= 2; jj += 2)
+    {
+      int blurPixel = RIDX((i + ii), (j+jj), dim);
+      
+      red += (int) src[blurPixel].red;
+      green += (int) src[blurPixel].green;
+      blue += (int) src[blurPixel].blue;
+    }
+  
+  currentPixel.red = (unsigned short) (red / 9);
+  currentPixel.green = (unsigned short) (green / 9);
+  currentPixel.blue = (unsigned short) (blue / 9);
+
+  return currentPixel;    
+}
+
+// BLOCKING ATTEMPT
+  /* for (i = 2; i < border; i += blockLim) */
+  /*   for (j = 2; j < border; j += blockLim) */
+  /*     for (ii = i; ii < (i + blockLim); ii++) */
+  /* 	for (jj = j; jj < (j + blockLim); jj++) */
+  /* 	{ */
+  /* 	  red = green = blue = 0; */
+  /* 	  for(neighRow = -2; neighRow <= 2; neighRow += 2) */
+  /* 	    for(neighCol = -2; neighCol <= 2; neighCol += 2) */
+  /* 	    { */
+  /* 	      int blurPixel = RIDX((ii + neighRow), (jj + neighCol), dim); */
+
+  /* 	      red += (int) src[blurPixel].red; */
+  /* 	      green += (int) src[blurPixel].green; */
+  /* 	      blue += (int) src[blurPixel].blue; */
+  /* 	    } */
+  /* 	} */
