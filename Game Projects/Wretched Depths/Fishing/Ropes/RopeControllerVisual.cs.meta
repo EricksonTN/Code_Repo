@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 4ccdbe20a2e5255418fad2c29a0fc4b3
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - startObject: {instanceID: 0}
+  - endObject: {instanceID: 0}
+  - ropeSegmentPrefab: {fileID: 100000, guid: 3c9291a9e8f2ba04e96860710d1f70c0, type: 3}
+  executionOrder: -107
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
