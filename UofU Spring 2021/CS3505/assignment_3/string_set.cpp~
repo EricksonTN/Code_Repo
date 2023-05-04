@@ -1,0 +1,344 @@
+/* A 'string set' is defined as a set of strings stored
+ * in sorted order in a drop list.  See the class video
+ * for details.
+ *
+ * For lists that do not exceed 2 ^ (max_width + 1)
+ * elements, the add, remove, and contains functions are 
+ * O(lg size) on average.  The operator= and get_elements 
+ * functions are O(size).   
+ * 
+ * Peter Jensen
+ * February 12, 2021
+ */
+
+#include "string_set.h"
+#include <iostream>  // For debugging, if needed.
+#include <cstdlib>
+#include <time.h>
+
+namespace cs3505
+{
+  /*******************************************************
+   * string_set member function definitions
+   ***************************************************** */
+  
+  /** Constructor:  The parameter indicates the maximum
+    * width of the next pointers in drop list nodes.
+    */
+  string_set::string_set(int max_width)
+  {
+    std::cout << "In constructor" << std::endl;
+
+    head = new node("", max_width);
+
+    std::cout << "created sentinel node" << std::endl;
+
+    this->max_width = max_width;
+    this->size = 0;
+
+    for (int i = 0; i < max_width; i++)
+    {
+      std::cout << "Setting next to null" << std::endl;
+      head->next[i] = NULL;
+    }
+
+    std::cout << "This set's max_width is: " << this->max_width << std::endl;
+    std::cout << "This set's size is: " << this->size << std::endl;
+  }
+
+  
+  /** Copy constructor:  Initialize this set
+    * to contain exactly the same elements
+    * as another set.
+    */
+  string_set::string_set (const string_set &other)
+  {
+    head = new node("", other.max_width);
+    this->max_width = other.max_width;
+    this->size = 0;
+
+    for (int i = 0; i < max_width; i++)
+    {
+      head->next[i] = NULL;
+    }
+
+    copySet(other);
+  }
+
+
+  /** Destructor:  Release any memory allocated
+    * for this object.
+    */
+  string_set::~string_set()
+  {
+    clean();
+  }
+
+
+  /* Additional public and private helper function definitions needed here */
+
+
+  /*
+   *
+   *
+   */
+  void string_set::add (const std::string &data)
+  {
+    if (contains(data))
+    {
+      return;
+    }
+    
+    std::vector<node *> location = listSearch(data);
+    int coinflip, newWidth;
+
+    srand(time(NULL));
+
+    newWidth = 1;
+
+    while (true)
+    {
+      std::cout << "starting the coin flip" << std::endl;
+      coinflip = rand() % 10 + 1;
+      if ((coinflip % 2) == 0)
+      {
+	std::cout << "Triggered the fail, current width is: " << newWidth << std::endl;
+	break;
+      }
+      std::cout << "This is the width currently: " << newWidth << std::endl;
+      if (newWidth == max_width)
+      {
+	break;
+      }
+
+      newWidth++;
+
+      std::cout << "This is the width after the increment: " << newWidth << std::endl;
+    }
+
+    node newNode(data, newWidth);
+    std::cout << "current set size: " << size << std::endl;
+    for (int i = 0; i < newWidth; i++)
+    {
+      std::cout << "Currently at the beginning in the for loop." << std::endl;
+      node *nextNode = location[i]->next[i];
+      location[i]->next[i] = &newNode;
+      newNode.next[i] = nextNode;
+    }
+    
+    size++;
+
+    std::cout << "This is the size after the add: " << size << std::endl;
+    std::cout << "This is the data recently store: "<< head->next[0]->data << std::endl;
+    std::cout << "this is the node_width of the recently added node using the head node: " << head->next[0]->node_width << std::endl;
+    std::cout << "this is the node_width of the recently added node using the location's node pointer: " << location[0]->next[0]->node_width << std::endl;
+  }          
+
+
+  /*
+   *
+   *
+   */
+  void string_set::remove (const std::string &data)
+  {
+    if (!contains(data))
+    {
+      return;
+    }
+
+    std::vector<node *> location = listSearch(data);
+    node *deletedNode = location[0]->next[0];
+    for (int i = 0; i < deletedNode->node_width; i++)
+    {
+      node *deletedNext = deletedNode->next[i];
+      location[i]->next[i] = deletedNext;
+      
+      delete deletedNode;
+    }
+
+    size--;
+  }         
+
+
+  /*
+   *
+   *
+   */
+  bool string_set::contains (const std::string &data) const
+  {
+    std::cout << "Currently at the beginning of the contains method." << std::endl;
+
+    std::vector<node *> location = listSearch(data);
+
+    std::cout << "At the position after the listSearch method call in the contains method." << std::endl;
+    
+    if (location[0]->next[0] == NULL)
+    {
+      std::cout << "in the NULL if check" << std::endl;
+
+      return false;
+    }
+
+    if (location[0]->next[0]->data == data)
+    {
+      return true;
+    }
+    std::cout << "We are at the position after the if check to see if the list contains the data." << std::endl;
+
+    return false;
+  }   
+
+  int  string_set::get_size () const
+  {
+    return size;
+  }                           
+
+
+  /*
+   *
+   *
+   */
+  string_set & string_set::operator= (const string_set &rhs)
+  {
+    clean();
+
+    this->max_width = rhs.max_width;
+    head = new node("", max_width);
+
+    std::vector<std::string> rhs_contents = rhs.get_elements();
+    
+    for (int i = 0; i < rhs_contents.size(); i++)
+    {
+      add(rhs_contents[0]);
+    }
+
+    return *this;
+  }   
+
+
+
+  /*
+   *
+   *
+   */
+  std::vector<std::string> string_set::get_elements() const
+  {
+    std::vector<std::string> elementList;
+    elementList.reserve(this->size);
+
+    node *current = head->next[0];
+
+    for (int i = 0; i < this->size; i++)
+    {
+      elementList[i] = current->data;
+      current = current->next[0];
+    }
+
+    return elementList;
+  }
+
+
+
+  /*
+   *
+   *
+   */
+  void string_set::clean ()
+  {
+    node *prior = head->next[0];
+    node *current = head->next[0];
+
+    for(int i = 1; i <= size; i++)
+    {
+      if (prior == NULL)
+      {
+	break;
+      }
+
+      current = current->next[0];
+      delete prior;
+      
+      prior = current;
+    }
+
+    this->size = 0;
+
+    for (int i = 0; i < max_width; i++)
+    {
+      head->next[i] = NULL;
+    }
+  }
+
+
+
+
+  /*
+   *
+   *
+   */
+  std::vector<node *> string_set::listSearch (const std::string new_data) const
+  {
+    std::vector<node *> prior;
+    prior.reserve(max_width);
+    node *current;
+    current = head;
+    
+    std::cout << "This is before the list check for loop" << std::endl;
+    for (int i = max_width - 1; i >= 0; i--)
+    {
+
+      while (true)
+      {
+	if (current->next[i] == NULL)
+	{
+	  std::cout << "current's next value is null" << std::endl;
+	  std::cout << "the value of i is: " << i << std::endl;
+	  prior[i] = current;
+	  break;
+	}
+	
+	std::cout << "this is after the NULL check in listSearch and the current index is: " << i << std::endl;
+	std::cout << "the set's current size is: " << size << std::endl;
+	  
+	if (current->next[i] != NULL)
+	{
+	  std::cout << "in the non NULL if" << std::endl;
+	  
+	  if (current->next[i]->data > new_data)
+	  {
+	    std::cout << "current is too far." << std::endl;
+	    prior[i] = current;
+	    break;
+	  }
+	  
+	  if (current->next[i]->data == new_data)
+	    {
+
+	  if (current->next[i]->data < new_data)
+	  {
+	    std::cout << "current is not far enought yet." << std::endl;
+	    current = current->next[i];
+	  }
+	}
+
+      }    
+    }
+
+    return prior;
+  }
+
+  /*
+   *
+   *
+   */
+ void string_set::copySet (const string_set set)
+  { 
+    std::vector<std::string> copiedElements = set.get_elements();
+    
+    for (int i = 0; i < set.size; i++)
+    {
+      add(copiedElements[i]);
+    }
+  }
+
+}

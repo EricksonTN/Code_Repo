@@ -1,0 +1,109 @@
+#include <iostream>
+#include "string_set.h"
+#include "node.h"
+
+void testNode();
+void testStringSetAdd();
+// void testStringSetRemove();
+void testStringSetContains();
+// void testMassAdd(string_set set);
+// void testMassRemove(string_set set):
+// void testGet_contents(string set set);
+// void testOperatorEquals():
+void testTwoParamConstructor();
+// void testCopyConstructor():
+//   void testString_setDestructor();
+
+int main ()
+{
+  //testNode(); //DONE AND WORKS
+
+  //testTwoParamConstructor();  //DONE AND WORKS
+  
+  //testStringSetAdd(); // WORKS but has random segmentation issues and invalid memory address issues *NEEDS RESOLVING*
+
+  testStringSetContains();
+  
+  // testStringSetRemove();
+
+  // testMassAdd();
+
+  // testMassRemove();
+
+  // testGet_contents();
+
+  return 0;
+}
+
+void testNode ()
+{
+  cs3505::node tester("Hello", 4);
+
+  std::cout << "This tests the node object's assignment:" << std::endl;
+  std::cout << "The data stored in this node is: " << tester.data << std::endl;
+  std::cout << "The size of this node's drop list is: " << tester.node_width << std::endl;
+  std::cout << "The next of this node is: " << tester.next[0] << std::endl;
+}
+
+void testStringSetAdd()
+{
+  cs3505::string_set set(4);
+  set.add("apple");
+  std::cout << "currently at the end of the testStringSetAdd method" << std::endl;
+}
+
+// void testStringSetRemove()
+// {
+
+// }
+
+void testStringSetContains()
+{
+  cs3505::string_set set(4);
+  set.add("apple");
+  std::cout << "Adding apple is complete" << std::endl;
+  std::cout << "------------------------------------------------------------------" << std::endl;
+  if (set.contains("apple"))
+  {
+    std::cout << "this set contains \"apple\"" << std::endl;
+  }
+  else
+  {
+    std::cout << "There's an error" << std::endl;
+  }
+}
+
+// void testMassAdd(string_set set)
+// {
+
+// }
+
+// void testMassRemove(string_set set)
+// {
+
+// }
+
+// void testGet_contents(string_set set)
+// {
+
+// }
+
+// void testOperatorEquals ()
+// {
+
+// }
+
+void testTwoParamConstructor ()
+{
+  cs3505::string_set set(5); 
+}
+
+// void testCopyConstructor ()
+// {
+
+// }
+
+// void testString_setDestructor()
+// {
+
+// }
