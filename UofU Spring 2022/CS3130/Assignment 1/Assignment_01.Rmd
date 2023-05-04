@@ -1,0 +1,97 @@
+---
+title: "Assignment 1: Exploratory Analysis"
+author: "Erickson Nguyen"
+date: "1/21/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+To properly answer the question of whether restaurants in San Diego, CA are better than restaurants in Salt Lake City, UT, we must gather some intermediary data first. Considering the article that states San Diego as the country's best restaurant scene uses points such as: price, and diversity, I believe it would be pertinent to do so as well. Seeing the price range available in Salt Lake County and San Diego, alongside the availability of diverse foods will provide a good comparison to what each state has to offer. Furthermore, this information would be used to provide readers a resource to find wonderful restaurants that fall within their price range and 'mood' at that time. In doing so, the data will provide us with good insight on the current state of Salt Lake City's food scene as well as provide us with information we can use to compare against San Diego.
+
+The main methodology I will use to gather information is through Google Maps. It provides us with very important pieces of data such as: At a glance pricing, reviews, working hours, health and safety, as well as links to menus. While it doesn't provide a very structured means to view pricing and items, it does allow us to glean quite a bit of information from it at a simple glance. To gather data and analyze it, I will gather a sizable sample of data from around 50-100 restaurants in the Salt Lake County area and the city of San Diego. This allows me to get a wider spread of information, especially in pricing for lower income areas compared to high income areas. From then, I will be using pie charts and histograms to get a general idea on pricing and diversity to analyze and make a educated statement to the key question. Now, regarding why I specifically chose to gather data from the entire Salt Lake County instead of specifically Salt Lake City was to essentially even out the playing field. San Diego spans a 372.4 square mile area, compared to Salt Lake County's 807 square miles, however the population of both are more comparable at 1.41 million and 1.16 million respectively. Furthermore, with my analysis on the whole Salt Lake County area, it is encompassing low income areas alongside moderate, and high income areas as well. If I were to compare San Diego to Salt Lake City, Salt Lake City has a vastly smaller population, and generally that area contains people of moderate to higher income. The comparison would be more difficult to make, and thus answering the question if San Diego's restaurant scene is better than Salt Lake City's would be based on conjecture and uneven scaling.
+
+
+## Data
+Now, regarding on how I plan to gather the data, I intend to simulate the population of San Diego the best that I can. To do so, I am gathering data using the Stratified Sampling method. The reasoning behind my choice of Stratified Sampling as opposed to Simple Random Sampling, or say Cluster Sampling is due to the fact that Stratified Sampling has the ensured benefit of representing subgroups of the population into my data. Therefore, with Stratified Sampling, I will gather data on restaurants in different income areas across Salt Lake County and San Diego. In doing so, I can get a good estimate on where people of different backgrounds and financial circumstances visit. Furthermore, to narrow the sampling population slightly, I had chosen to look specifically at restaurants who boast a user rating of 3.5 - 5.0 star ratings. This is to run in parallel of how the article written about San Diego may have done their data gathering. 
+
+Below is the data I had gathered in hopes of answering the question regarding Salt Lake's food scene compared to San Diego. I had gathered 200 restaurants split between the Salt Lake County area and San Diego. The variables I had chosen for the data is relatively simple. Each data entry contains the restaurant's name, the user rating (based on Google Maps), the price point, whether they provided a diverse food, as well as a location indicator. Diverse in this case means not what is viewed as general American fare, or isn't available nationwide. If they do provide diverse food options the data entry is marked with a '1' to represent TRUE, and '0' to represent FALSE.
+``` {r data, echo = FALSE}
+data <- read.csv("CS3130 Assignment 1 Data.csv")
+head(data)
+```
+
+``` {r dataPrep, echo = FALSE}
+SL_Data <- data[c(1:100), c(2:5)]
+SD_Data <- data[c(101:200), c(2:5)]
+```
+
+## Analysis
+
+As stated previously, to properly gather the data necessary to answer the key question, I had opted to gather data from Salt Lake County as opposed to Salt Lake City, and San Diego. The population of Salt Lake County matches more closely to the population of San Diego, and provides us with a better assortment of data in regards to the income spectrum of the county. Using the data we had gathered, I will analyze it into three separate parts: User Ratings, Price, and Diverse Option Availability.
+
+``` {r hist_UR, echo = FALSE}
+cuts = seq(3.8, 5, length.out=11)
+hist(SL_Data$User.Rating, breaks = cuts, main = "User Ratings across 100 restaurants in Salt Lake County, UT")
+hist(SD_Data$User.Rating, breaks = cuts, main = "User Ratings across 100 restaurants in San Diego, CA")
+```
+
+__The average user rating for Salt Lake County is:__
+``` {r avgRating, echo = FALSE}
+mean(SL_Data$User.Rating)
+```
+
+__The average user rating for San Diego is:__
+``` {r avgRating2, echo = FALSE}
+mean(SD_Data$User.Rating)
+```
+
+
+``` {r hist_Price, echo = FALSE}
+price_data <- SL_Data$Price
+barplot(table(price_data), main = "Price Range Distribution across 100 restaurants in Salt Lake County")
+price_data <- SD_Data$Price
+barplot(table(price_data), main = "Price Range Distribution across 100 restaurants in San Diego")
+```
+
+__The price distribution across 100 restaurants in Salt Lake County:__
+``` {r price_distr, echo = FALSE}
+table(SL_Data$Price)
+```
+
+__The price distribution across 100 restaurants in San Diego:__
+``` {r price_distr2, echo = FALSE}
+table(SD_Data$Price)
+```
+
+``` {r hist_Diverse, echo = FALSE}
+lbls <- c("Non-Diverse", "Diverse")
+SL_diverse_data <- table(SL_Data$Diverse.Foods)
+SD_diverse_data <- table(SD_Data$Diverse.Foods)
+SL_pct <- round(SL_diverse_data/sum(SL_diverse_data)*100)
+SL_lbls <- paste(lbls, SL_pct)
+SL_lbls <- paste(SL_lbls,"%",sep="")
+pie(SL_diverse_data, labels = SL_lbls, main = "Diverse Options Distribution of 100 restaurants in Salt Lake County")
+
+SD_pct <- round(SD_diverse_data/sum(SD_diverse_data)*100)
+SD_lbls <- paste(lbls, SD_pct)
+SD_lbls <- paste(SD_lbls,"%",sep="")
+pie(SD_diverse_data, labels = SD_lbls, main = "Diverse Options Distribution of 100 restaurants in San Diego")
+```
+
+As stated in the introduction, to be able to answer the key question well and backed with research and data, I needed to gather some intermediary data first. Specifically, like the article about San Diego's food scene, we needed to gather data on the general price point in Salt Lake County compared to San Diego, as well as the availability of Diverse Foods in both areas. Regarding the general price point first, we see that the distribution of price points landed mainly on moderate pricing or cheap pricing.In the case of Salt Lake County there is a slight gap between the amount of cheap restaurants and moderately priced restaurants. The gap seen in San Diego is much larger compared to Salt Lake County. What this infers in the context to the key question is that the majority of Salt Lake County's food scene caters to those of with a smaller budget. Even though the majority of the restaurants trended to have moderate pricing, within the spectrum of moderate pricing (\$10 - $25 per meal) there is a good portion that caters to those of a lower income! Now, regarding the availability of diverse foods, We see that 69% of the restaurants in Salt Lake County provide diverse foods, as opposed to San Diego's 56%. This data stems from the stratified sampling we had done. Generally speaking, the areas of lower income has a larger amount of diversity within their population. Therefore, it is unsurprising that those areas gave rise to many restaurants offering food from the non-native population! 
+
+Using the charts and graphs above, we can gather the same sort of information and infer the same as before. The user ratings for both tend to be located around the 4.3-4.7 area with an average user rating of 4.425 and 4.487 for Salt Lake County and San Diego respectively. The price range graphs displays that there is a very small population of pricey options in Salt Lake County compared to San Diego. However, I believe that is due to user error on my part when gathering data. Google Maps, suggested many restaurants, but those within my range of review were not always the most expensive restaurants. Thus, the data trended to more moderate and cheap eats. Salt Lake County has many options for fine dining and the like. Majority of which is located in Salt Lake City. Lastly, the availability of diverse options presents a majority in the diverse category with 69% as opposed to the non diverse at 31%. This is significantly more extreme compared to San Diego's 56% diverse and 44% non-diverse. As someone who lived their entire life in Utah, this number comes as a surprise, but with regards to the key questions. This is fantastic data. Long has California been known as one of the hubs for immigration and national travel. To see that Utah trends towards the level of diversity that California offers is something I take pride in!  
+
+## Conclusion
+
+Now that I have gathered the data and analyzed it, I believe it is important to state the shortcomings of this study. Namely speaking, the data gathering. Despite my usage of Stratified Sampling, I believe that the majority of my data did end up trending to moderate/low income areas and their restaurants. While this is nice, it led to the data being skewed towards that end of the price spectrum. The more expensive establishments weren't as abundant within my data set. This would've been avoided if I had either gathered more data, or consciously made the choice to search for pricier restaurants. The latter of which I opted to not do as to keep to the random data gathering seen in Stratified Sampling. Furthermore, the limitations of Google Maps is highly apparent when gathering the data. The fact that I was unable to view the menus and get a clear price point of every restaurant made much of the data based on conjecture. This incomplete data led to many of the graphs and data values being quite vague and left for interpretation. Furthermore, I would've liked to be able to gather data on restaurants that are either locally owned or franchised nationally. With Google Maps, there were many times where I had to sift through loads of fast food restaurants to find actual data. While there is nothing wrong with fast food restaurants, those establishments can be found anywhere, and would end up providing near useless data to gather any inferences from. Lastly, with the graphs seen in the Analysis section of this study, I find them to be sufficient but not good by any means. Due to my own ineptitude with the R Language, many of the graphs above displayed the information too simply. They were all too abstracted to the point where at a glance, we can't gather much in data or hypotheses. I had wished to make them more concise and displayed with proper useful data, however I am unsure of how. For example, the User Rating graph has such an odd numerical system on the x-axis, It makes it much more difficult to determine the ranges of each box. If I had the technical know-how, I would definitely rework those graphs to better represent the data professionally.
+
+Based on the data gathered and analyzed, I found that the Salt Lake County restaurant scene is much better than I initially thought. The average user rating being 4.425 provides a decent estimate on how good the food is in Salt Lake County. Furthermore, the average price point lands around the cheap to moderately expensive range. Therefore, I can infer that a larger population of the Salt Lake County area can afford these establishments. Lastly, based on the data, I see that the within the sub category of cheap to moderately expensive eats, there is a large variety of restaurant options. The availability of diverse foods in Salt Lake County is 69% which provides insight on the growing community and population of non-native groups and culture across the county! However, despite all these positives in favor of Salt Lake County, I believe the data could've been better. The conscious choice to exclude restaurants out of the specified range made it so that the data for user ratings are skewed. That is why the average rating is as high as it is. However, if we included restaurants of a lower rating, or expanded our range and included more data values, the average would most definitely drop. In terms of the two other data values, I feel like they do a good job of representing Salt Lake County as a whole.
+
+Despite my position as a representative of the local restaurateur's association, I would answer the key question that we've been working towards as a hesitant "no". The restaurant scene in Salt Lake is surely growing, and has made strives in the past decade. However as it stands, currently San Diego boasts a better restaurant scene than Salt Lake City. In regards to the data of both locations, Salt Lake County won only in the area of diversity. San Diego had much more in terms of options for various price points and higher rated locations. Furthermore, the data for the available diverse options may be skewed as we took data from a very narrowed and specified subset of the population.
+
