@@ -1,0 +1,50 @@
+title: Start10
+tags: 
+colorID: 0
+position: 313,173
+---
+BF1: Hey C, long time no see! Haha! Where have you been lately? I haven't seen you at school or heard from you in like, 2 weeks!
+[[LIE- Oh, hey BF. I forgot to tell you but my family and I went on a trip to the next town over. Sorry for not telling you...|C011]]
+[[TRUTH- Oh, hey BF. Yeah, I just kinda didn't feel like going... Sorry for not mentioning it.|C01]]
+===
+title: C01
+tags: 
+colorID: 0
+position: 634,173
+---
+BF1: Oh, that's fine. Don't worry about it too much. Well anyway, wanna go play ball at the park?
+[[C02]]
+===
+title: C02
+tags: 
+colorID: 0
+position: 937,175
+---
+SSure, sounds like fun...
+[[C03]]
+===
+title: C04
+tags: 
+colorID: 0
+position: 1501,167
+---
+YYeah, why not. Guess I'll get started.
+<<disable_friendWall>>
+===
+title: C03
+tags: 
+colorID: 0
+position: 1232,174
+---
+BF1: Oh shoot! I forgot that I lost my ball the other day. Hey  C, would you mind helping me look for it? I'll go look too. If I can't find it I'll wait by the park!
+[[C04]]
+===
+title: C011
+tags: 
+colorID: 0
+position: 635,-74
+---
+BF1: Oh, that's fine. Don't worry about it too much. Well anyway, wanna go play ball at the park?
+<<playerLied>>
+[[C02]]
+===

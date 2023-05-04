@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 9762aaa1451128241b2853a01b8db1be
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 94073015eacc34c1d8fc6786e43d60ca, type: 3}
+  baseLanguageID: en-US
+  stringIDs:
+  - BFPostCutscene-Start-0
+  - BFPostCutscene-Start-1
+  - BFPostCutscene-D01-2
+  - BFPostCutscene-D02-3
+  compilationStatus: 1
+  isSuccesfullyCompiled: 1
+  compilationErrorMessage: 
+  baseLanguage: {fileID: 7128917941130120860, guid: 9762aaa1451128241b2853a01b8db1be, type: 3}
+  localizations: []

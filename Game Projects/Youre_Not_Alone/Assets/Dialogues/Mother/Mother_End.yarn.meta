@@ -1,0 +1,71 @@
+fileFormatVersion: 2
+guid: df788dc8d50d2f04daf5e67ab431dd4b
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 94073015eacc34c1d8fc6786e43d60ca, type: 3}
+  baseLanguageID: en-US
+  stringIDs:
+  - Mother_End-crying-0
+  - Mother_End-DiningRoom-1
+  - Mother_End-DiningRoom02-2
+  - Mother_End-DiningRoom02-3
+  - Mother_End-DiningRoom03-4
+  - Mother_End-DiningRoom03-5
+  - Mother_End-DiningRoom04-6
+  - Mother_End-DiningRoom04-7
+  - Mother_End-DiningRoom04-8
+  - Mother_End-DiningRoom04-9
+  - Mother_End-DiningRoom05-10
+  - Mother_End-DiningRoom06-11
+  - Mother_End-DiningRoom07-12
+  - Mother_End-DiningRoom08-13
+  - Mother_End-DiningRoom09-14
+  - Mother_End-DiningRoom10-15
+  - Mother_End-DiningRoom11-16
+  - Mother_End-DiningRoom11-17
+  - Mother_End-DiningRoom11-18
+  - Mother_End-DiningRoom11-19
+  - Mother_End-DiningRoom11-20
+  - Mother_End-DiningRoom11-21
+  - Mother_End-DiningRoom12-22
+  - Mother_End-DiningRoom12-23
+  - Mother_End-DiningRoom13-24
+  - Mother_End-DiningRoom14-25
+  - Mother_End-DiningRoom15-26
+  - Mother_End-DiningRoom16-27
+  - Mother_End-DiningRoom16-28
+  - Mother_End-DiningRoom17-29
+  - Mother_End-DiningRoom18-30
+  - Mother_End-kitchenStart-31
+  - Mother_End-InKitchen01-32
+  - Mother_End-InKitchen02-33
+  - Mother_End-InKitchen03-34
+  - Mother_End-InKitchen04-35
+  - Mother_End-InKitchen05-36
+  - Mother_End-InKitchen05-37
+  - Mother_End-InKitchen06-38
+  - Mother_End-InKitchen07-39
+  - Mother_End-InKitchen07-40
+  - Mother_End-InKitchen08-41
+  - Mother_End-InKitchen09-42
+  - Mother_End-InKitchen09-43
+  - Mother_End-InKitchen10-44
+  - Mother_End-InKitchen11-45
+  - Mother_End-InKitchen12-46
+  - Mother_End-InKitchen13-47
+  - Mother_End-InKitchen13-48
+  - Mother_End-Start999-49
+  - Mother_End-Start999-50
+  - Mother_End-Start999-51
+  - Mother_End-MCI_01-52
+  - Mother_End-MCI_02-53
+  compilationStatus: 1
+  isSuccesfullyCompiled: 1
+  compilationErrorMessage: 
+  baseLanguage: {fileID: 7128917941130120860, guid: df788dc8d50d2f04daf5e67ab431dd4b, type: 3}
+  localizations: []

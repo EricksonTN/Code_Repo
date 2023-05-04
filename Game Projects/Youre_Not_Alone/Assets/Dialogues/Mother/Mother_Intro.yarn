@@ -1,0 +1,43 @@
+title: Start40
+tags: 
+colorID: 0
+position: 286,82
+---
+Parent1: C! Where were you?! I told you we are having guests over today and I needed you to clean up the house!
+[[MI_Intro01]]
+===
+title: MI_Intro01
+tags: 
+colorID: 0
+position: 580,86
+---
+II - I'm sorry
+[[MI_Intro02]]
+===
+title: MI_Intro02
+tags: 
+colorID: 0
+position: 884,91
+---
+Parent1: *Sigh* No, it's fine.. I was able to clean up the house before they arrived. Now I just have to cook dinner for everyone.
+Parent1: Let's see.... I think I have everything... Ah!!! I forgot the leek! How am I going to make this dish without leeks!
+Parent1: I don't have time to get it before the guests arrive! If only I didn't have to spend time cleaning the house.
+[[MI_Intro03]]
+===
+title: MI_Intro03
+tags: 
+colorID: 0
+position: 1176,94
+---
+II... I can get it. I'm really sorry mom... I can go get the leek while you prepare dinner..!
+[[MI_Intro04]]
+===
+title: MI_Intro04
+tags: 
+colorID: 0
+position: 1476,94
+---
+Parent1: Oh thank you C! Just run to the nearest shop to get the leek!
+Parent1: .. Normally I would scour for a deal but we have no time! Meet me back home when you've gotten it!
+<<disableMotherWall>>
+===

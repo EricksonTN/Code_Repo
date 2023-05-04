@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: 1676da6d2029d6544b084a9237cdc955
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 94073015eacc34c1d8fc6786e43d60ca, type: 3}
+  baseLanguageID: en-US
+  stringIDs:
+  - BFFirstEncounter-Start10-0
+  - BFFirstEncounter-Start10-1
+  - BFFirstEncounter-Start10-2
+  - BFFirstEncounter-C01-3
+  - BFFirstEncounter-C02-4
+  - BFFirstEncounter-C04-5
+  - BFFirstEncounter-C03-6
+  compilationStatus: 1
+  isSuccesfullyCompiled: 1
+  compilationErrorMessage: 
+  baseLanguage: {fileID: 7128917941130120860, guid: 1676da6d2029d6544b084a9237cdc955, type: 3}
+  localizations: []

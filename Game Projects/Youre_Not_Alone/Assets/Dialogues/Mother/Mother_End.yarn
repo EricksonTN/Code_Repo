@@ -1,0 +1,317 @@
+title: crying
+tags: 
+colorID: 0
+position: 636,-276
+---
+<<end1stMotherCutscene>>
+<<start2ndMotherCutscene>>
+**Sniff* *Sniff*
+[[DiningRoom]]
+===
+title: DiningRoom
+tags: 
+colorID: 0
+position: 642,-40
+---
+Parent_Cutscene: I'm sorry about yelling earlier.. I didn't mean to. Please take a seat. I wanna have a talk.
+[[DiningRoom02]]
+===
+title: DiningRoom02
+tags: 
+colorID: 0
+position: 972,-37
+---
+Parent_Cutscene: C ... Before we get too far into things, I want to make something clear. Both your father and I have not, for a single moment, wished you weren't born.
+Parent_Cutscene: You are everything to us! We love you and were so happy when you were born! 
+[[DiningRoom03]]
+===
+title: DiningRoom03
+tags: 
+colorID: 0
+position: 1335,-49
+---
+Parent_Cutscene: I'm sorry you had to get caught between him and I. We still love each other very much, and the arguments you overheard...
+Parent_Cutscene: We aren't trying to blame you. We blame ourselves for.. this. *clears throat* We blame ourselves for not being able to provide for you. We can't help but feel like we've let you down.
+[[DiningRoom04]]
+===
+title: DiningRoom04
+tags: 
+colorID: 0
+position: 1686,-39
+---
+Parent_Cutscene: I've been trying to put on a brave face for you... seems like I failed... *sniff*
+Parent_Cutscene: Listen C, I don't know whether or not we will get out of this situation anytime soon. However, I do know that we will.
+Parent_Cutscene: Your father left a few days ago to find work in the city over. He's skilled in many different fields, so I'm sure we will pull through. So please don't worry about that.
+Parent_Cutscene: As your parents, we'll handle it. We'll take care of you.
+[[DiningRoom05]]
+===
+title: DiningRoom05
+tags: 
+colorID: 0
+position: 2052,-40
+---
+.... *sniff* Mm....
+[[DiningRoom06]]
+===
+title: DiningRoom06
+tags: 
+colorID: 0
+position: 2419,-34
+---
+<<end2ndMotherCutscene>>
+<<enableMerchantAndBF>>
+<<start3rdMotherCutscene>>
+Merch5: OHOHO Hello! Apologies, the door was wide open so I let myself in!
+[[DiningRoom07]]
+===
+title: DiningRoom07
+tags: 
+colorID: 0
+position: 2781,-19
+---
+BF6: Hey C! I was following after the merchant here! Good to see that you're here for din...ner..
+[[DiningRoom08]]
+===
+title: DiningRoom08
+tags: 
+colorID: 0
+position: 3100,-18
+---
+Parent_Cutscene: Hey guys.. You're early! Dinner will be ready soon. Could you wait in the kitchen for a little bit? Watch over the pot would you?
+[[DiningRoom09]]
+===
+title: DiningRoom09
+tags: 
+colorID: 0
+position: 3468,-15
+---
+Merch5: YES MA'AM!!
+[[DiningRoom10]]
+===
+title: DiningRoom10
+tags: 
+colorID: 0
+position: 3787,-21
+---
+BF6: Sure thing..!
+[[DiningRoom11]]
+===
+title: DiningRoom11
+tags: 
+colorID: 0
+position: 4133,-19
+---
+Parent_Cutscene: Sorry C... *sigh* I'm sorry that I haven't been there when you needed me. I'm sorry that I was making you worry.
+Parent_Cutscene: I noticed your change in personality a few months ago. I was worried, but at that time and even now I am more worried about sustaining the family.
+Parent_Cutscene: I don't know about all the other issues that you are dealing with, but we can talk about it after dinner if you'd like. Just know that you're not alone in all of this.
+Parent_Cutscene: You have people who truly care about you, your dad and I included. So.. don't try fight this battle alone. No one deserves to deal with all this without some help.
+Parent_Cutscene: Your dad isn't here right now, and he's doing his best, but while he's gone I'll support you the best I can.
+Parent_Cutscene: You're friends and peers here in this house right now have your back as well!
+[[DiningRoom12]]
+===
+title: DiningRoom12
+tags: 
+colorID: 0
+position: 4486,-37
+---
+Parent_Cutscene: I know you're not feeling up to it right now, but please go back to school...
+Parent_Cutscene: I know you have some issue at school right now, we can work through those together. But, we want you to go to school. We want a better future for you!
+[[DiningRoom13]]
+===
+title: DiningRoom13
+tags: 
+colorID: 0
+position: 4800,-44
+---
+.... Okay...
+[[DiningRoom14]]
+===
+title: DiningRoom14
+tags: 
+colorID: 0
+position: 5142,-41
+---
+Parent_Cutscene: *smiles* We'll be okay and so will you.
+[[DiningRoom15]]
+===
+title: DiningRoom15
+tags: 
+colorID: 0
+position: 5476,-46
+---
+<<end3rdMotherCutscene>>
+<<start4thMotherCutscene>>
+Parent_Cutscene: Besides ... *AHEM* I know you two are listening in!
+[[DiningRoom16]]
+===
+title: DiningRoom16
+tags: 
+colorID: 0
+position: 5819,-42
+---
+Merch5: Ohoho.. you caught me! I'm sorry, I didn't mean to eavesdrop. 
+Merch5: I had talked to young C earlier, and we touched on some of the things he had on his mind. I just wanted to make sure he was alright! Oho!
+[[DiningRoom17]]
+===
+title: DiningRoom17
+tags: 
+colorID: 0
+position: 6144,-38
+---
+BF6: Ahaha I'm in the same boat! C and I were playing ball and talked about some stuff. Sorry C, didn't mean to listen in and pry!
+[[DiningRoom18]]
+===
+title: DiningRoom18
+tags: 
+colorID: 0
+position: 6454,-38
+---
+Parent_Cutscene: *laughs* Besides C... you've got all of us!
+<<end4thMotherCutscene>>
+===
+title: kitchenStart
+tags: 
+colorID: 0
+position: -473,-553
+---
+....
+[[InKitchen01]]
+===
+title: InKitchen01
+tags: 
+colorID: 0
+position: -183,-551
+---
+Parent_Cutscene: ...
+[[InKitchen02]]
+===
+title: InKitchen02
+tags: 
+colorID: 0
+position: 138,-550
+---
+........
+[[InKitchen03]]
+===
+title: InKitchen03
+tags: 
+colorID: 0
+position: 448,-543
+---
+Parent_Cutscene: ..... *Sigh* C.
+[[InKitchen04]]
+===
+title: InKitchen04
+tags: 
+colorID: 0
+position: 761,-542
+---
+!!!! Yes..?
+[[InKitchen05]]
+===
+title: InKitchen05
+tags: 
+colorID: 0
+position: 1082,-552
+---
+Parent_Cutscene: What's wrong? You've been so mopey for a while. You keep forgetting the things I ask you to do, and I also got a call from the school that you haven't been attending recently!
+Parent_Cutscene: You know that school costs money right?! We don't have a lot of money right now, so how do you think I feel when I hear that you aren't attending school?
+[[InKitchen06]]
+===
+title: InKitchen06
+tags: 
+colorID: 0
+position: 1417,-556
+---
+.....
+[[InKitchen07]]
+===
+title: InKitchen07
+tags: 
+colorID: 0
+position: 1771,-555
+---
+Parent_Cutscene: .. Say something. You've been like this for months. This quietness.
+Parent_Cutscene: It's not like you. Honestly, it has been really annoying to deal with. So say what you have on your mind! WHAT IS WRONG?!
+[[InKitchen08]]
+===
+title: InKitchen08
+tags: 
+colorID: 0
+position: 2113,-573
+---
+.... I .... I can't ... *sobs* I CAN'T HANDLE IT!!! *hic* *hic*
+[[InKitchen09]]
+===
+title: InKitchen09
+tags: 
+colorID: 0
+position: 2445,-577
+---
+**hic* *HIC* NOTHING'S GOING RIGHT!
+II CAN'T HANDLE IT!! SCHOOL'S GARBAGE, THE EXPECTATIONS ARE TOO MUCH, AND AT HOME *sniff* WE ARE HAVING SO MANY MONEY PROBLEMS AND I CAN'T HELP BUT BLAME MYSELF FOR IT!
+YYOU AND DAD ARGUE EVERY NIGHT AND I'M WORRIED THAT YOU GUYS WON'T LOVE EACH OTHER ANYMORE! *HIC* *HIC* *SOBS*
+[[InKitchen10]]
+===
+title: InKitchen10
+tags: 
+colorID: 0
+position: 2774,-580
+---
+AAND I CAN'T HELP BUT WONDER....
+[[InKitchen11]]
+===
+title: InKitchen11
+tags: 
+colorID: 0
+position: 3138,-595
+---
+WWOULD YOU TWO BE HAPPIER IF I WASN'T HERE? IF I WASN"T EVEN BORN?
+[[InKitchen12]]
+===
+title: InKitchen12
+tags: 
+colorID: 0
+position: 3511,-594
+---
+Parent_Cutscene: HOW COULD YOU SAY THAT!!
+[[InKitchen13]]
+===
+title: InKitchen13
+tags: 
+colorID: 0
+position: 3511,-359
+---
+Parent_Cutscene: !!!! ... I'm sorry ... I didn't mean to yell at you...
+Parent_Cutscene: *Sigh* C, let's go to the dining room. The food will simmer for just a while longer, we don't need to watch it.
+[[crying]]
+===
+title: Start999
+tags: 
+colorID: 0
+position: -1300,-938
+---
+Parent_Cutscene: Oh, welcome back C. Did you get the leek I needed?
+[[Yeah.. I got it.|MCI_01]]
+[[No.. Not yet|MCI_02]]
+===
+title: MCI_01
+tags: 
+colorID: 0
+position: -880,-671
+---
+<<if checkObtainedLeak("") > 0>>
+    <<start1stMotherCutscene>>
+    Parent_Cutscene: Good, come in, help me with cooking!
+    [[kitchenStart]]
+<<else>>
+    Parent_Cutscene: I don't have time for games C...
+<<endif>>
+===
+title: MCI_02
+tags: 
+colorID: 0
+position: -873,-1012
+---
+Parent_Cutscene: ... Can you get it for me? I really need it right now.
+===

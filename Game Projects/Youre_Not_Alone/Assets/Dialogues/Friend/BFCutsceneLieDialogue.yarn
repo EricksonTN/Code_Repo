@@ -1,0 +1,198 @@
+title: Start13
+tags: 
+colorID: 0
+position: 59,66
+---
+BF4: Hey C, did you manage to find the ball?
+[[No, I haven't found it yet.|NegativeResponse]]
+[[Yeah, I found it.|PositiveResponse]]
+===
+title: NegativeResponse
+tags: 
+colorID: 0
+position: 350,-126
+---
+BF4: Oh, well let's keep looking! Come back to me once you've found it!
+===
+title: PositiveResponse
+tags: 
+colorID: 0
+position: 353,252
+---
+<<if checkObtainedBall("") > 0>>
+    <<startSecondCutscene>>
+    BF4: Oh sweet! Let's go then!
+    [[Cut01]]
+<<else>>
+    BF4: Good joke.
+<<endif>>
+===
+title: Cut01
+tags: 
+colorID: 0
+position: 678,252
+---
+BF4: So C...
+[[Cut02]]
+===
+title: Cut02
+tags: 
+colorID: 0
+position: 984,249
+---
+YYeah?
+[[Cut03]]
+===
+title: Cut03
+tags: 
+colorID: 0
+position: 1264,252
+---
+BF4: I know your family didn't go on Vacation. I went over to your house the other day and asked your Mom where you had been.
+BF4: She told me you hadn't left your room for a while. I'm not mad that you lied to me, I just was wondering, why?
+[[Cut04]]
+===
+title: Cut04
+tags: 
+colorID: 0
+position: 1573,239
+---
+UUm, sorry for lying. I just didn't really want you to worry about it. I just kinda haven't felt like going lately. 
+[[Cut05]]
+===
+title: Cut05
+tags: 
+colorID: 0
+position: 1892,230
+---
+BF4: Well why not? I miss playing ball during Recess and eating lunch together with you! Is there something I can do? 
+[[Cut06]]
+===
+title: Cut06
+tags: 
+colorID: 0
+position: 2189,221
+---
+NNot really. It's not something you would know how to deal with.
+II just can't help seeing everyone else at school being all happy when I can't even pretend to put on a smile.
+EEveryone seems to expect me to be the same, and I just have a lot that I'm dealing with and don't have the energy to pretend.
+II wish I was more like you BF...
+[[Cut07]]
+===
+title: Cut07
+tags: 
+colorID: 0
+position: 2474,223
+---
+BF4: ...
+[[Cut08]]
+===
+title: Cut08
+tags: 
+colorID: 0
+position: 2748,214
+---
+BF4: You know I'm not perfect right?
+[[Cut09]]
+===
+title: Cut09
+tags: 
+colorID: 0
+position: 3007,206
+---
+!!? What are you talking about?
+[[Cut10]]
+===
+title: Cut10
+tags: 
+colorID: 0
+position: 3315,198
+---
+YYour happy, have tons of friends, are great at sports.. You're everything I'm not! 
+[[Cut11]]
+===
+title: Cut11
+tags: 
+colorID: 0
+position: 3614,221
+---
+BF4: I haven't told anyone this, not since I was super little, but I want to be a doctor when I grow up.
+[[Cut12]]
+===
+title: Cut12
+tags: 
+colorID: 0
+position: 3897,220
+---
+RReally, I thought you wanted to be an athlete?
+[[Cut13]]
+===
+title: Cut13
+tags: 
+colorID: 0
+position: 4182,216
+---
+BF4: No, that's just what I tell everyone.
+BF4: I am pretty good at sports, and my parents decided that's what they want me to be, but I've always wanted to help people by being a doctor. 
+[[Cut14]]
+===
+title: Cut14
+tags: 
+colorID: 0
+position: 4466,207
+---
+BF4: The problem is that I never had the grades for it. When I told my parents that they laughed and said I could never do it with my grades, and that I should focus on sports. 
+[[Cut15]]
+===
+title: Cut15
+tags: 
+colorID: 0
+position: 4785,208
+---
+BF4: And as much as I hated it, they were right. I have a super hard time keeping up in biology and anatomy no matter how hard I try.
+BF4: And I don't want to ask the teachers for help because I know they think I should focus on sports too. 
+[[Cut16]]
+===
+title: Cut16
+tags: 
+colorID: 0
+position: 5106,195
+---
+BF4: The reason I'm telling you all this isn't because I want your pity or anything, but just because I want you to know that not everything is alright on my side either.
+[[Cut17]]
+===
+title: Cut17
+tags: 
+colorID: 0
+position: 5418,188
+---
+BF4: I'm flattered that you want to be like me, but every time I get congratulated for doing well at a tournament, I feel like I'm betraying myself a bit.
+BF4: Despite how much I want to be a doctor, I do well in sports instead.
+[[Cut18]]
+===
+title: Cut18
+tags: 
+colorID: 0
+position: 5696,176
+---
+BF4: Regardless of my little sob story, the point is that I know life is cruel and sucks sometimes, and it can be super hard to get out of the rut it puts you in.
+BF4: But I can't change the way I am, so I might as well do my best with what I've got right?
+[[Cut19]]
+===
+title: Cut19
+tags: 
+colorID: 0
+position: 6015,162
+---
+BF4: So C, I just want you to remember that, no matter what your going through, and I won't ask what it is, you're not alone.
+BF4: If you want, I can be with you every step of the way and we can work on stuff together. Sound good?
+[[Cut20]]
+===
+title: Cut20
+tags: 
+colorID: 0
+position: 6299,163
+---
+YYeah, I'd like that.
+<<endSecondCutscene>>
+===

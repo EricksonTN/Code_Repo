@@ -1,0 +1,183 @@
+title: Start100
+tags: 
+colorID: 0
+position: 1898,165
+---
+BF3: Hey C, did you manage to find the ball?
+[[No, I haven't found it yet.|NegativeResponse1]]
+[[Yeah, I found it.|PositiveResponse1]]
+===
+title: NegativeResponse1
+tags: 
+colorID: 0
+position: 2283,-18
+---
+BF3: Oh, well let's keep looking! Come back to me once you've found it!
+===
+title: PositiveResponse1
+tags: 
+colorID: 0
+position: 2286,378
+---
+<<if checkObtainedBall("") > 0>>
+    <<startSecondCutscene>>
+    BF3: Oh sweet! Let's go then!
+    [[Cut011]]
+<<else>>
+    BF3: Good joke.
+<<endif>>
+===
+title: Cut011
+tags: 
+colorID: 0
+position: 2578,376
+---
+BF3: So C...
+[[Cut021]]
+===
+title: Cut021
+tags: 
+colorID: 0
+position: 2862,377
+---
+YYeah?
+[[Cut051]]
+===
+title: Cut051
+tags: 
+colorID: 0
+position: 3129,375
+---
+BF3: Why haven't you felt like going to school?
+BF3: I miss playing ball during Recess and eating lunch together with you! Is there something I can do?
+[[Cut061]]
+===
+title: Cut061
+tags: 
+colorID: 0
+position: 3407,361
+---
+NNot really. It's not something you would know how to deal with.
+II just can't help seeing everyone else at school being all happy when I can't even pretend to put on a smile.
+EEveryone seems to expect me to be the same, and I just have a lot that I'm dealing with and don't have the energy to pretend.
+II wish I was more like you BF...
+[[Cut071]]
+===
+title: Cut071
+tags: 
+colorID: 0
+position: 3691,360
+---
+BF3: ...
+[[Cut081]]
+===
+title: Cut081
+tags: 
+colorID: 0
+position: 3935,356
+---
+BF3: You know I'm not perfect right?
+[[Cut091]]
+===
+title: Cut091
+tags: 
+colorID: 0
+position: 4209,361
+---
+!!? What are you talking about?
+[[Cut101]]
+===
+title: Cut101
+tags: 
+colorID: 0
+position: 4468,362
+---
+YYour happy, have tons of friends, are great at sports.. You're everything I'm not! 
+[[Cut111]]
+===
+title: Cut111
+tags: 
+colorID: 0
+position: 4716,349
+---
+BF3: I haven't told anyone this, not since I was super little, but I want to be a doctor when I grow up.
+[[Cut121]]
+===
+title: Cut121
+tags: 
+colorID: 0
+position: 4988,326
+---
+RReally, I thought you wanted to be an athlete?
+[[Cut131]]
+===
+title: Cut131
+tags: 
+colorID: 0
+position: 5242,323
+---
+BF3: No, that's just what I tell everyone.
+BF3: I am pretty good at sports, and my parents decided that's what they want me to be, but I've always wanted to help people by being a doctor. 
+[[Cut141]]
+===
+title: Cut141
+tags: 
+colorID: 0
+position: 5493,316
+---
+BF3: The problem is that I never had the grades for it.
+BF3: When I told my parents that they laughed and said I could never do it with my grades, and that I should focus on sports. 
+[[Cut151]]
+===
+title: Cut151
+tags: 
+colorID: 0
+position: 5746,310
+---
+BF3: And as much as I hated it, they were right. I have a super hard time keeping up in biology and anatomy no matter how hard I try.
+BF3: And I don't want to ask the teachers for help because I know they think I should focus on sports too. 
+[[Cut161]]
+===
+title: Cut161
+tags: 
+colorID: 0
+position: 6002,291
+---
+BF3: The reason I'm telling you all this isn't because I want your pity or anything, but just because I want you to know that not everything is alright on my side either.
+[[Cut171]]
+===
+title: Cut171
+tags: 
+colorID: 0
+position: 6293,286
+---
+BF3: I'm flattered that you want to be like me, but every time I get congratulated for doing well at a tournament, I feel like I'm betraying myself a bit.
+BF3: Despite how much I want to be a doctor, I do well in sports instead.
+[[Cut181]]
+===
+title: Cut181
+tags: 
+colorID: 0
+position: 6537,285
+---
+BF3: Regardless of my little sob story, the point is that I know life is cruel and sucks sometimes, and it can be super hard to get out of the rut it puts you in.
+BF3: But I can't change the way I am, so I might as well do my best with what I've got right?
+[[Cut191]]
+===
+title: Cut191
+tags: 
+colorID: 0
+position: 6813,283
+---
+BF3: So C, I just want you to remember that, no matter what your going through, and I won't ask what it is, you're not alone.
+BF3: If you want, I can be with you every step of the way and we can work on stuff together. Sound good?
+[[Cut201]]
+===
+title: Cut201
+tags: 
+colorID: 0
+position: 7074,256
+---
+YYeah, I'd like that.
+<<endSecondCutscene>>
+===

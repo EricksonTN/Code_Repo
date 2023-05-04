@@ -1,0 +1,25 @@
+title: Start14
+tags: 
+colorID: 0
+position: 267,23
+---
+BF5: Hey C, I'm glad we were able to have that talk today. Let me know if you ever want to talk again.
+BF5: Do you think you can start coming to school again?
+[[D01]]
+===
+title: D01
+tags: 
+colorID: 0
+position: 529,31
+---
+II'm not sure, I'll do my best.
+[[D02]]
+===
+title: D02
+tags: 
+colorID: 0
+position: 791,24
+---
+BF5: That's all I could ask for.
+<<disableFriendWall2>>
+===

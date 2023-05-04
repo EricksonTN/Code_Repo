@@ -1,0 +1,25 @@
+fileFormatVersion: 2
+guid: 776bb85d94e0d004ea8b99ff669cd8ea
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 94073015eacc34c1d8fc6786e43d60ca, type: 3}
+  baseLanguageID: en-US
+  stringIDs:
+  - Mother_Intro-Start40-0
+  - Mother_Intro-MI_Intro01-1
+  - Mother_Intro-MI_Intro02-2
+  - Mother_Intro-MI_Intro02-3
+  - Mother_Intro-MI_Intro02-4
+  - Mother_Intro-MI_Intro03-5
+  - Mother_Intro-MI_Intro04-6
+  - Mother_Intro-MI_Intro04-7
+  compilationStatus: 1
+  isSuccesfullyCompiled: 1
+  compilationErrorMessage: 
+  baseLanguage: {fileID: 7128917941130120860, guid: 776bb85d94e0d004ea8b99ff669cd8ea, type: 3}
+  localizations: []

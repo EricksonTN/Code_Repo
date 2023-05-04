@@ -1,0 +1,264 @@
+title: Start99
+tags: 
+colorID: 0
+position: 2857,567
+---
+Merch3: Oho! C! Were you able to get my cup?
+[[Yes sir….|d1]]
+[[Not yet|d2]]
+===
+title: d1
+tags: 
+colorID: 0
+position: 3121,781
+---
+<<if checkObtainedCup("") > 0>>
+    <<startFirstCutscene>>
+    Merch3: Ohohoho! Thank you! I really appreciate it, young man!
+    Merch3: Now that we have everything in order, let’s revisit what we discussed earlier.
+    Merch3: C… take a seat. Tell me what is bothering you.
+    Merch3: I’ve been with you since you were a young child, and while you are not my own child, I worry the same.
+    Merch3: Please let me know that bogs you down so much.
+[[d3]]
+<<else>>
+    Merch3: No need to pull my leg!
+<<endif>>
+===
+title: d2
+tags: 
+colorID: 0
+position: 3113,373
+---
+Merch3: I see.. Let me know when you find my goblet! My wife gave it to me on our 1st Anniversary
+===
+title: d3
+tags: 
+colorID: 0
+position: 3476,783
+---
+[[... Nothing’s wrong. I think I may be a little bit tired, that’s all.|d4]]
+[[... There has actually been something on my mind.|d5]]
+===
+title: d4
+tags: 
+colorID: 0
+position: 3778,456
+---
+Merch3: C… you’ve been like this for months. Being tired for months isn’t normal.
+Merch3: You’re a young and healthy kid, so this change has been really noticeable. What’s going on?
+Merch3: Are you having troubles at home? Are your peers bullying you? 
+Merch3: You’re a bright kid! 
+Merch3: I’ve seen your successes and failures since you were young, so I’m wondering what’s stopping you so hard now.
+Merch3: You can talk to me. Whatever you’re willing to tell me, I’ll keep it safe.
+
+[[... I've been having trouble at home... my parents keep fighting, and I think they might divorce..|d6]]
+[[... I'm being harassed by my peers at school and no one is doing anything to stop it..|d7]]
+===
+title: d5
+tags: 
+colorID: 0
+position: 3915,1076
+---
+.... I can't handle it.. The expectation of doing something great.. I don't have any big ambitions, but my peers do..
+[[d19]]
+===
+title: d6
+tags: 
+colorID: 0
+position: 4230,370
+---
+II .. don't know what to do. I don't know what to do to help get their minds off of their worries.
+II can't help but feel like I may be apart of the problem. A reason for why they are stressing.
+[[d17]]
+===
+title: d7
+tags: 
+colorID: 0
+position: 4098,671
+---
+Merch3: ...Harrassed how?
+[[d8]]
+===
+title: d8
+tags: 
+colorID: 0
+position: 4374,669
+---
+TThey make fun me for anything. It could be clothing I wore, food I brought, if I got a question wrong in front of the whole class.
+TThey are also spreading rumors that aren't true! Someone found out about our family's financial circumstances...
+TThey heard that I might not be able to afford to go to school next year..! They treat me like I'm poor and not worth anything...
+**Sobs* The teachers just stand there and watch! Not a single word to stop their harassments.
+[[d9]]
+===
+title: d9
+tags: 
+colorID: 0
+position: 4674,668
+---
+Merch3: I... pardon my language but.. WHAT IN GOD'S NAME IS WRONG WITH THESE PEOPLE?!
+
+Merch3: The staff just stands there and does nothing?! I... I can't believe you had to endure that. I'm so angry that is happening to you...
+
+Merch3: What do you want to do about it?
+[[d10]]
+===
+title: d10
+tags: 
+colorID: 0
+position: 4951,667
+---
+II don't know.. I don't want them to be punished for what they said. That'll just make it worse for me.. But I can't handle it anymore.
+EEveryday I wake up, and I don't want to go to school.. But I do anyways, because if I don't that'll stress my parents even more.
+TThey are already stressed enough. I just wish I could disappear from this world. Apparently I'm not needed in it either way..
+[[d11]]
+===
+title: d11
+tags: 
+colorID: 0
+position: 6050,573
+---
+Merch3: HEY!!
+[[d12]]
+===
+title: d12
+tags: 
+colorID: 0
+position: 6370,555
+---
+!!!!
+[[d13]]
+===
+title: d13
+tags: 
+colorID: 0
+position: 6650,551
+---
+Merch3: Ah... I'm sorry C. I didn't mean to raise my voice like that..
+Merch3: I did so because I don't want you to think like that ever again. Your worries are important to you. That is why you are thinking about them for as long as you have.
+Merch3: That is why you aren't happy right now. So I won't treat them as nothing. These worries, these doubts, they consume you don't they?
+Merch3: They take everything you enjoy in life and silences them. All that accompanies you are these negative thoughts.. I too have those..
+[[d14]]
+===
+title: d14
+tags: 
+colorID: 0
+position: 7341,572
+---
+Merch3: Tell me C, how do you view me?
+[[d15]]
+===
+title: d15
+tags: 
+colorID: 0
+position: 7614,557
+---
+HHuh? Ah... Well everyone in town loves you. You're kind, strong, funny, but most importantly, you are there when people need you.
+YYou're family is also perfect in our eyes. I often hear some family's use your family as a reference for the perfect household!
+II also respect you a lot. You took care of me since I was a child!
+[[d16]]
+===
+title: d16
+tags: 
+colorID: 0
+position: 7859,549
+---
+Merch3: That is very kind C. Your words flatter me to no end. Oho!
+Merch3: ... But. I am not nearly as perfect as you think I am. Recently, my wife and I have been getting in much more arguments...
+Merch3: Seems like the demons of the past have come back to haunt me once more....
+Merch3: When our daughter was born, I decided to stop drinking. I drank a lot in my youth, and the merchant business is full of celebrations and fanfare! .. oho..
+Merch3: But recent dealings haven't gone well.. I've been losing money for a few months now, and I had decided to take a few swigs one night...
+Merch3: I woke up on the side of the road the next morning with most of belongings stolen. That included the money I had earned that day.
+Merch3: My wife is an amazing person! She handles the housework and our daughter. Because of both she doesn't work..
+Merch3: So it is my job to provide for the family. That day, I failed my job. I failed my family. I'm no longer young. oho.
+Merch3: I can no longer drink for nights and be able to work as I do now.. So that night of inhibition and costed me greatly.
+Merch3: But. That hasn't stopped me. This mistake I had made reaffirmed my goals in life. The people who I strive to protect and care for!
+Merch3: C, I greatly appreciate your kind words about me. it fills me with such joy that there are people in this world that view me so fondly!
+Merch3: But, I'm not perfect either. I have doubts and negative thoughts like you.
+Merch3: The experiences you've told me is painful to hear, as I also relate to them.
+Merch3: Just know that... this fight you are having, isn't something you have to deal with alone.
+Merch3: There are many more people who can help lessen the burden. We all carry doubts and insecurities within us. That is what makes us who we are!
+Merch3: So C, just know that....
+Merch3: You're Not Alone.
+<<setOptionCountTo2>>
+<<endFirstCutscene>>
+===
+title: d17
+tags: 
+colorID: 0
+position: 4530,378
+---
+Merch3: Hey... don't say that! You're parents truly care for you!
+Merch3: I remember when you were born and your parents were so happy to see you laugh, and so worried when you cried.
+Merch3: While I teased them about being too doting, I was also sure that you would grow up in a cared for household.
+
+Merch3: Have you heard them say that you're the problem?
+[[d18]]
+===
+title: d18
+tags: 
+colorID: 0
+position: 4835,371
+---
+NNo... but I sometimes overhear them talking about affording for me to go to school next year..
+IIf I didn't have to go to school they wouldn't need to worry about it. I sometimes wonder if they would've been happy without kids..
+[[d11]]
+===
+title: d19
+tags: 
+colorID: 0
+position: 4186,1083
+---
+II look at them and find myself not having any worth. The expectation that people have on me is really really stressful.
+[[d20]]
+===
+title: d20
+tags: 
+colorID: 0
+position: 4439,1073
+---
+Merch3: Wow... that's.... loaded..
+[[d21]]
+===
+title: d21
+tags: 
+colorID: 0
+position: 4695,1073
+---
+....
+[[d22]]
+===
+title: d22
+tags: 
+colorID: 0
+position: 4941,1067
+---
+Merch3: Ah... um.. This expectation you feel.. I won't deny it's existence, but I feel that you may be garnering your worth based on your peers.
+Merch3: Trust me C, you are a bright child with a future that isn't set yet. You don't need to change the world, or make your mark in history.
+Merch3: What you should look to do is, shape a future that you are happy with. A life that you want to live.
+Merch3: The people you compare yourselves to have no impact on what you want to do.
+Merch3: The doubters, haters, and non-believers are talking because they couldn't take the first step like you can.
+Merch3: In my field of work, you need to be able to discern treasure from all the trash.
+Merch3: Let me say this young C. You are a treasure.
+Merch3: One that hasn't been used or tainted by multiple grubby, greedy hands.
+Merch3: You are able to shape yourself to whoever you would like to be. That's the beauty of youth!
+[[d23]]
+===
+title: d23
+tags: 
+colorID: 0
+position: 5226,1066
+---
+TThank you sir.. but what do I do with all the pressure? I feel it everywhere and I can't get away from it...
+[[d24]]
+===
+title: d24
+tags: 
+colorID: 0
+position: 5487,1060
+---
+Merch3: There's many ways with dealing with it C.. In your case, I think being able to stop gauging your worth based off of your peers will help.
+Merch3: In this time of your life, it's always good to find collaborators instead of facing competitors.
+Merch3: Taking that first step is the hardest. I would know. But, as you do it more, you will find it easier.
+Merch3: The expectations that weigh you down, will slowly get quieter. I promise that to you.
+[[d14]]
+===

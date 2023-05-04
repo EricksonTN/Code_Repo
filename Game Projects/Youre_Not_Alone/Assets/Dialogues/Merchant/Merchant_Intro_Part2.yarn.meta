@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 06ece74975ccf18408eba62609470c3e
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 94073015eacc34c1d8fc6786e43d60ca, type: 3}
+  baseLanguageID: en-US
+  stringIDs:
+  - Merchant_Intro_Part2-Start0-0
+  - Merchant_Intro_Part2-Start0-1
+  compilationStatus: 1
+  isSuccesfullyCompiled: 1
+  compilationErrorMessage: 
+  baseLanguage: {fileID: 7128917941130120860, guid: 06ece74975ccf18408eba62609470c3e, type: 3}
+  localizations: []

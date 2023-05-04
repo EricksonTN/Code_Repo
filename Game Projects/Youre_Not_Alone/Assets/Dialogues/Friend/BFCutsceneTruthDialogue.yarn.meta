@@ -1,0 +1,52 @@
+fileFormatVersion: 2
+guid: 17b2140be558186469aaf9a2ddb99d4f
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 94073015eacc34c1d8fc6786e43d60ca, type: 3}
+  baseLanguageID: en-US
+  stringIDs:
+  - BFCutsceneTruthDialogue-Start12-0
+  - BFCutsceneTruthDialogue-Start12-1
+  - BFCutsceneTruthDialogue-Start12-2
+  - BFCutsceneTruthDialogue-NegativeResponse-3
+  - BFCutsceneTruthDialogue-PositiveResponse-4
+  - BFCutsceneTruthDialogue-PositiveResponse-5
+  - BFCutsceneTruthDialogue-PositiveResponse-6
+  - BFCutsceneTruthDialogue-Cut01-7
+  - BFCutsceneTruthDialogue-Cut02-8
+  - BFCutsceneTruthDialogue-Cut06-9
+  - BFCutsceneTruthDialogue-Cut06-10
+  - BFCutsceneTruthDialogue-Cut06-11
+  - BFCutsceneTruthDialogue-Cut06-12
+  - BFCutsceneTruthDialogue-Cut07-13
+  - BFCutsceneTruthDialogue-Cut08-14
+  - BFCutsceneTruthDialogue-Cut09-15
+  - BFCutsceneTruthDialogue-Cut10-16
+  - BFCutsceneTruthDialogue-Cut11-17
+  - BFCutsceneTruthDialogue-Cut12-18
+  - BFCutsceneTruthDialogue-Cut13-19
+  - BFCutsceneTruthDialogue-Cut13-20
+  - BFCutsceneTruthDialogue-Cut14-21
+  - BFCutsceneTruthDialogue-Cut14-22
+  - BFCutsceneTruthDialogue-Cut15-23
+  - BFCutsceneTruthDialogue-Cut15-24
+  - BFCutsceneTruthDialogue-Cut16-25
+  - BFCutsceneTruthDialogue-Cut17-26
+  - BFCutsceneTruthDialogue-Cut17-27
+  - BFCutsceneTruthDialogue-Cut18-28
+  - BFCutsceneTruthDialogue-Cut18-29
+  - BFCutsceneTruthDialogue-Cut19-30
+  - BFCutsceneTruthDialogue-Cut19-31
+  - BFCutsceneTruthDialogue-Cut20-32
+  - BFCutsceneTruthDialogue-Cut05-33
+  - BFCutsceneTruthDialogue-Cut05-34
+  compilationStatus: 1
+  isSuccesfullyCompiled: 1
+  compilationErrorMessage: 
+  baseLanguage: {fileID: 7128917941130120860, guid: 17b2140be558186469aaf9a2ddb99d4f, type: 3}
+  localizations: []

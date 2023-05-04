@@ -1,0 +1,52 @@
+fileFormatVersion: 2
+guid: 1dadfb250d47d4c4faef63f5f308e5b7
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 94073015eacc34c1d8fc6786e43d60ca, type: 3}
+  baseLanguageID: en-US
+  stringIDs:
+  - BFCutsceneLieDialogue-Start14-0
+  - BFCutsceneLieDialogue-Start14-1
+  - BFCutsceneLieDialogue-Start14-2
+  - BFCutsceneLieDialogue-NegativeResponse-3
+  - BFCutsceneLieDialogue-PositiveResponse-4
+  - BFCutsceneLieDialogue-PositiveResponse-5
+  - BFCutsceneLieDialogue-Cut01-6
+  - BFCutsceneLieDialogue-Cut02-7
+  - BFCutsceneLieDialogue-Cut03-8
+  - BFCutsceneLieDialogue-Cut03-9
+  - BFCutsceneLieDialogue-Cut04-10
+  - BFCutsceneLieDialogue-Cut05-11
+  - BFCutsceneLieDialogue-Cut06-12
+  - BFCutsceneLieDialogue-Cut06-13
+  - BFCutsceneLieDialogue-Cut06-14
+  - BFCutsceneLieDialogue-Cut06-15
+  - BFCutsceneLieDialogue-Cut07-16
+  - BFCutsceneLieDialogue-Cut08-17
+  - BFCutsceneLieDialogue-Cut09-18
+  - BFCutsceneLieDialogue-Cut10-19
+  - BFCutsceneLieDialogue-Cut11-20
+  - BFCutsceneLieDialogue-Cut12-21
+  - BFCutsceneLieDialogue-Cut13-22
+  - BFCutsceneLieDialogue-Cut13-23
+  - BFCutsceneLieDialogue-Cut14-24
+  - BFCutsceneLieDialogue-Cut15-25
+  - BFCutsceneLieDialogue-Cut15-26
+  - BFCutsceneLieDialogue-Cut16-27
+  - BFCutsceneLieDialogue-Cut17-28
+  - BFCutsceneLieDialogue-Cut17-29
+  - BFCutsceneLieDialogue-Cut18-30
+  - BFCutsceneLieDialogue-Cut18-31
+  - BFCutsceneLieDialogue-Cut19-32
+  - BFCutsceneLieDialogue-Cut19-33
+  - BFCutsceneLieDialogue-Cut20-34
+  compilationStatus: 1
+  isSuccesfullyCompiled: 1
+  compilationErrorMessage: 
+  baseLanguage: {fileID: 7128917941130120860, guid: 1dadfb250d47d4c4faef63f5f308e5b7, type: 3}
+  localizations: []

@@ -1,0 +1,91 @@
+title: Start
+tags: 
+colorID: 2
+position: 1055,116
+---
+Merch: Oho? If it isn’t young C! How are you my boy?
+Merch: Have you come to enjoy this beautiful day like I have?
+Merch: Surely you have much better things than to entertain this old codger!
+[[Intro_Dialog]]
+===
+title: Intro_Dialog
+tags: 
+colorID: 1
+position: 1056,413
+---
+**Thinking* Oh, it's the town’s merchant. He’s always happy and everyone loves him.
+II’ve known him since I was young. He would always take care of me and buy me food from the merchant stalls.
+SSometimes I see his wife and him out in the town and they look so happy.
+HHappy…. Huh, when was the last time I felt happy?
+[[G-good afternoon sir… I guess it’s pretty outside… I hadn’t really noticed. What are you doing here today?|Intro_Dialog02]]
+[[H-hi…. Is today beautiful? It feels like every other day… I guess I hadn’t noticed. What are you doing here today?|Intro_Dialog02]]
+===
+title: Intro_Dialog02
+tags: 
+colorID: 2
+position: 1323,116
+---
+Merch: Hm? Oh! I had just come back from the local bazaar! Oho!
+Merch: I really found some treasures there. I’m certain to make back the money I spent if not double!
+[[Intro_Dialog03]]
+===
+title: Intro_Dialog03
+tags: 
+colorID: 1
+position: 1326,416
+---
+OO-oh… um that’s good to hear. Sounds like you’re having a great day so far.. Umm… Ahh…sorry, I’ll be on my way..
+[[Intro_Dialog04]]
+===
+title: Intro_Dialog04
+tags: 
+colorID: 2
+position: 1618,119
+---
+Merch: … C.
+[[Intro_Dialog05]]
+===
+title: Intro_Dialog05
+tags: 
+colorID: 1
+position: 1623,416
+---
+!!! … yes?
+[[Intro_Dialog06]]
+===
+title: Intro_Dialog06
+tags: 
+colorID: 2
+position: 1917,124
+---
+Merch: …. Are you okay? You seem down.
+Merch: I’ve noticed you’ve been down for quite a while.. and while I’m certain it isn’t my place to pry.. I’m worried.
+[[Intro_Dialog07]]
+===
+title: Intro_Dialog07
+tags: 
+colorID: 1
+position: 1920,416
+---
+……….
+[[Intro_Dialog08]]
+===
+title: Intro_Dialog08
+tags: 
+colorID: 2
+position: 2215,111
+---
+Merch: *sigh* Take a seat. Let’s have a chat. Are you thirsty? Oho, cuz you know I am!
+Merch: … ah damnit, I must’ve left my favorite goblet back near the town’s entrance.
+Merch: Sorry to bother you C. Could you head there to grab the cup?
+Merch: I’ll meet you there after I pack up my goods and get the donkey’s movin’.
+[[Intro_Dialog09]]
+===
+title: Intro_Dialog09
+tags: 
+colorID: 1
+position: 2219,409
+---
+OO-ok…
+<<enable_teleporter0>>
+===
