@@ -1,7 +1,7 @@
 from tkinter import *
 
 root = Tk()
-root.geometry("200x150")
+root.geometry("200x220")
 
 frame = Frame(root)
 frame.pack()
@@ -89,16 +89,100 @@ frame.pack()
 
 ## Label Tutorial
 
-def set():
-    var.set("Good-Bye Cruel World")
+# def set():
+#     var.set("Good-Bye Cruel World")
  
-var = StringVar()
-var.set("Hello World")
+# var = StringVar()
+# var.set("Hello World")
  
-label = Label(frame, textvariable = var )
-label.pack()
-button = Button(frame, text = "set", command = set)
-button.pack()
+# label = Label(frame, textvariable = var )
+# label.pack()
+# button = Button(frame, text = "set", command = set)
+# button.pack()
  
-root.mainloop()
+# root.mainloop()
 
+## Menu Tutorial
+
+# def save():
+#     #Code to be written
+#     pass
+
+# def load():
+#     #code to be written
+#     pass
+
+# mm = Menu(frame)
+# mm.add_command(label = "Save", command= save)
+# mm.add_command(label = "Load", command= load)
+# mm.add_command(label= "Exit", command= root.destroy)
+
+# root.config(menu= mm)
+
+# root.mainloop()
+
+# def emptyfunc():
+#     #Code to be written
+#     pass
+ 
+# # Main Menu
+# mainmenu = Menu(root)
+ 
+# # Menu 1
+# filemenu = Menu(mainmenu, tearoff = 0)
+# filemenu.add_command(label = "Open", command = emptyfunc)
+# filemenu.add_command(label = "Save", command = emptyfunc)
+# filemenu.add_separator()
+# filemenu.add_command(label = "Exit", command = root.destroy)
+# mainmenu.add_cascade(label="File", menu=filemenu)
+ 
+# # Menu 2
+# toolmenu = Menu(mainmenu, tearoff = 0)
+# toolmenu.add_command(label = "Find", command = emptyfunc)
+# toolmenu.add_command(label = "Debugger", command = emptyfunc)
+# toolmenu.add_command(label = "Replace", command = emptyfunc)
+# mainmenu.add_cascade(label="Tools", menu=toolmenu)
+ 
+# # Menu 3
+# helpmenu = Menu(mainmenu, tearoff = 0)
+# helpmenu.add_command(label = "Documentation", command = emptyfunc)
+# mainmenu.add_cascade(label = "Help", menu = helpmenu)
+ 
+# root.config(menu = mainmenu)
+# root.mainloop()
+
+## List Tutorial
+
+# label = Label(root,text = "A list of Grocery items.")  
+# label.pack()  
+   
+# listbox = Listbox(root)  
+   
+# listbox.insert(1,"Bread")  
+# listbox.insert(2, "Milk")  
+# listbox.insert(3, "Meat")  
+# listbox.insert(4, "Cheese")
+# listbox.insert(5, "Vegetables")  
+   
+# listbox.pack()  
+# root.mainloop()
+
+def retrieve():
+    print(listbox.curselection())
+   
+ 
+label = Label(root,text = "A list of Grocery items.")  
+label.pack()  
+   
+listbox = Listbox(root)  
+   
+listbox.insert(1,"Bread")  
+listbox.insert(2, "Milk")  
+listbox.insert(3, "Meat")  
+listbox.insert(4, "Cheese")
+listbox.insert(5, "Vegetables")  
+listbox.pack()
+ 
+bttn = Button(frame, text = "Submit", command = retrieve)
+bttn.pack(side= "bottom")
+root.mainloop()  
