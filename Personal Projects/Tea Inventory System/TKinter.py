@@ -89,16 +89,16 @@ frame.pack()
 
 ## Label Tutorial
 
-# def set():
-#     var.set("Good-Bye Cruel World")
+def set():
+    var.set("Good-Bye Cruel World")
  
-# var = StringVar()
-# var.set("Hello World")
+var = StringVar()
+var.set("Hello World")
  
-# label = Label(frame, textvariable = var )
-# label.pack()
-# button = Button(frame, text = "set", command = set)
-# button.pack()
+label = Label(frame, textvariable = var )
+label.pack()
+button = Button(frame, text = "set", command = set)
+button.pack()
  
-# root.mainloop()
+root.mainloop()
 
